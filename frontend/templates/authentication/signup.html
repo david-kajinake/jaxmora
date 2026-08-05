@@ -1,0 +1,54 @@
+{% extends 'jaxmora/base.html' %}
+{% load static %}
+
+{% block title %}Create account | JAXMORA{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'frontend/css/auth.css' %}?v={{latest_timestamp}}">{% endblock %}
+
+{% block content %}
+<main class="auth-page">
+  <aside class="auth-showcase auth-showcase-signup">
+    <a class="brand" href="{% url 'frontend:home' %}" aria-label="JAXMORA home"><span class="brand-mark">J</span><span class="brand-name">JAX<span>MORA</span><small>.COM</small></span></a>
+    <div class="showcase-copy"><p class="eyebrow">A home for culture</p><h1>The next great story could be yours.</h1><p>Join a community that watches, listens and celebrates the creativity coming out of Africa.</p></div>
+    <p class="showcase-caption">Made for African stories.</p>
+  </aside>
+
+  <section class="auth-panel" aria-labelledby="signup-title">
+    <a class="auth-home-link" href="{% url 'frontend:home' %}">← Back to home</a>
+    <div class="auth-card">
+      <p class="eyebrow">Create your account</p>
+      <h2 id="signup-title">Your JAXMORA journey starts here.</h2>
+      <p class="auth-intro">One account gives you access to every film, track, laugh and image you love.</p>
+
+      {% if form.non_field_errors %}<div class="form-alert">{{ form.non_field_errors }}</div>{% endif %}
+      <form method="post" class="auth-form" novalidate>
+        {% csrf_token %}
+        <div class="form-field">
+          <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+          {{ form.username }}
+          {% for error in form.username.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+        </div>
+        <div class="form-field">
+          <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+          {{ form.email }}
+          {% for error in form.email.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+        </div>
+        <div class="form-field">
+          <label for="{{ form.password1.id_for_label }}">Create password</label>
+          <div class="password-control">{{ form.password1 }}<button type="button" class="password-toggle" aria-label="Show password">Show</button></div>
+          <p class="field-hint">Use at least 8 characters with a mix of letters and numbers.</p>
+          {% for error in form.password1.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+        </div>
+        <div class="form-field">
+          <label for="{{ form.password2.id_for_label }}">Confirm password</label>
+          <div class="password-control">{{ form.password2 }}<button type="button" class="password-toggle" aria-label="Show password">Show</button></div>
+          {% for error in form.password2.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+        </div>
+        <label class="check-field"><input type="checkbox" required><span>I agree to JAXMORA's <a href="#terms">Terms</a> and <a href="#privacy">Privacy Policy</a>.</span></label>
+        <button class="button button-primary auth-submit" type="submit">Create account <span>→</span></button>
+      </form>
+      <p class="auth-switch">Already have an account? <a href="{% url 'frontend:login' %}">Sign in instead</a></p>
+    </div>
+  </section>
+</main>
+<script src="{% static 'frontend/js/auth.js' %}" defer></script>
+{% endblock %}
