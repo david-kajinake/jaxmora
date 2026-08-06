@@ -1,0 +1,56 @@
+{% extends 'jaxmora/base.html' %}
+{% load static %}
+
+{% block extra_css %}<link rel="stylesheet" href="{% static 'frontend/css/catalog.css' %}">{% endblock %}
+
+{% block content %}
+<header class="catalog-header">
+  <div class="catalog-nav container">
+    <a class="brand" href="{% url 'frontend:home' %}" aria-label="JAXMORA home"><span class="brand-mark">J</span><span class="brand-name">JAX<span>MORA</span><small>.COM</small></span></a>
+    <nav aria-label="Main navigation">
+      <a href="{% url 'frontend:home' %}">Home</a>
+      <a class="{% block films_active %}{% endblock %}" href="{% url 'frontend:films' %}">Films</a>
+      <a class="{% block music_active %}{% endblock %}" href="{% url 'frontend:music' %}">Music</a>
+      <a class="{% block comedy_active %}{% endblock %}" href="{% url 'frontend:comedy' %}">Comedy</a>
+      <a class="{% block visuals_active %}{% endblock %}" href="{% url 'frontend:image_visuals' %}">Visuals</a>
+      <a href="{% url 'frontend:creators' %}">Creators</a>
+    </nav>
+    <div class="catalog-account"><a href="{% url 'frontend:login' %}">Sign in</a><a class="button button-small" href="{% url 'frontend:signup' %}">Join</a></div>
+    <button class="catalog-menu-toggle" type="button" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main class="catalog-page" data-catalog-page="{% block catalog_type %}{% endblock %}">
+  <section class="catalog-hero {% block hero_class %}{% endblock %}">
+    <div class="container catalog-hero-content">
+      <p class="eyebrow">{% block hero_eyebrow %}{% endblock %}</p>
+      <h1>{% block hero_title %}{% endblock %}</h1>
+      <p>{% block hero_copy %}{% endblock %}</p>
+      <a class="hero-jump" href="#catalogue">Browse the latest <span>↓</span></a>
+    </div>
+  </section>
+
+  {% block feature_strip %}{% endblock %}
+
+  <section class="catalogue container" id="catalogue">
+    <div class="catalogue-heading">
+      <div><p class="eyebrow">Fresh on JAXMORA</p><h2>{% block catalogue_title %}{% endblock %}</h2></div>
+      <label class="sort-control" for="catalog-sort">Sort by <select id="catalog-sort"><option value="latest">Latest added</option>{% block sort_options %}{% endblock %}</select></label>
+    </div>
+
+    <div class="catalog-search-row">
+      <label class="catalog-search" for="catalog-search"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.35-4.35m2.35-5.15a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z"/></svg><input id="catalog-search" type="search" placeholder="{% block search_placeholder %}Search this catalogue{% endblock %}"></label>
+      <p class="catalog-count" id="catalog-count" aria-live="polite"></p>
+    </div>
+
+    {% block search_tags %}{% endblock %}
+
+    <div class="catalog-grid" id="catalog-results" aria-live="polite"></div>
+    <div class="empty-catalog" id="empty-catalog" hidden><span>⌕</span><h3>No matching content yet</h3><p>Try another tag or search term.</p><button type="button" id="clear-catalog-filter">Clear filters</button></div>
+    <div class="catalog-load"><button class="button catalog-load-button" id="load-more" type="button">Load more <span>↓</span></button></div>
+  </section>
+</main>
+<div class="toast" role="status" aria-live="polite"></div>
+{% endblock %}
+
+{% block extra_js %}<script src="{% static 'frontend/js/catalog.js' %}" defer></script>{% endblock %}

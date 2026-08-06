@@ -1,0 +1,19 @@
+{% extends 'jaxmora/catalog_base.html' %}
+{% block title %}Music | JAXMORA{% endblock %}
+{% block catalog_type %}music{% endblock %}
+{% block hero_class %}music-hero{% endblock %}
+{% block music_active %}active{% endblock %}
+{% block hero_eyebrow %}The sound of now{% endblock %}
+{% block hero_title %}Press play on the continent.{% endblock %}
+{% block hero_copy %}A growing collection of new releases, underground favourites and the artists moving African music forward.{% endblock %}
+{% block catalogue_title %}Latest music{% endblock %}
+{% block sort_options %}<option value="trending">Most trending</option><option value="popular">Most played</option>{% endblock %}
+{% block search_placeholder %}Search songs, artists or sounds{% endblock %}
+{% block feature_strip %}
+<section class="artist-spotlight"><div class="container"><div class="spotlight-heading"><p class="eyebrow">Artists to know</p><h2>Popular musicians</h2><a href="#catalogue">Discover their music →</a></div><div class="artist-list"><article><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=180&q=85" alt="Portrait of a musician"><span><strong>Bruce Melodie</strong><small>Afro-pop · 1.2m listeners</small></span></article><article><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=180&q=85" alt="Portrait of a musician"><span><strong>Ariel Wayz</strong><small>R&B · 860k listeners</small></span></article><article><img src="https://images.unsplash.com/photo-1531384441138-2736e62e0919?auto=format&fit=crop&w=180&q=85" alt="Portrait of a musician"><span><strong>Boulevard</strong><small>Amapiano · 745k listeners</small></span></article><article><img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=180&q=85" alt="Portrait of a musician"><span><strong>Kora Nuru</strong><small>Afro-fusion · 639k listeners</small></span></article></div></div></section>
+{% endblock %}
+{% block search_tags %}
+<div class="tag-filter" aria-label="Filter music by tag">
+  <span>Find your sound</span><button class="is-active" data-filter="all" type="button">All music</button><button data-filter="afrobeat" type="button">Afrobeat</button><button data-filter="amapiano" type="button">Amapiano</button><button data-filter="rhumba" type="button">Rhumba</button><button data-filter="pop" type="button">Pop</button><button data-filter="drill" type="button">Drill</button><button data-filter="rock" type="button">Rock</button><button data-filter="kenya" type="button">Kenya</button><button data-filter="rwanda" type="button">Rwanda</button><button data-filter="uganda" type="button">Uganda</button><button data-filter="nigeria" type="button">Nigeria</button><button data-filter="south-africa" type="button">South Africa</button>
+</div>
+{% endblock %}

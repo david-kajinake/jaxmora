@@ -1,0 +1,44 @@
+{% extends 'jaxmora/base.html' %}
+{% load static %}
+
+{% block title %}Creators | JAXMORA{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'frontend/css/catalog.css' %}"><link rel="stylesheet" href="{% static 'frontend/css/creators.css' %}">{% endblock %}
+
+{% block content %}
+<header class="catalog-header">
+  <div class="catalog-nav container">
+    <a class="brand" href="{% url 'frontend:home' %}" aria-label="JAXMORA home"><span class="brand-mark">J</span><span class="brand-name">JAX<span>MORA</span><small>.COM</small></span></a>
+    <nav aria-label="Main navigation">
+      <a href="{% url 'frontend:home' %}">Home</a><a href="{% url 'frontend:films' %}">Films</a><a href="{% url 'frontend:music' %}">Music</a><a href="{% url 'frontend:comedy' %}">Comedy</a><a href="{% url 'frontend:image_visuals' %}">Visuals</a><a class="active" href="{% url 'frontend:creators' %}">Creators</a>
+    </nav>
+    <div class="catalog-account"><a href="{% url 'frontend:login' %}">Sign in</a><a class="button button-small" href="{% url 'frontend:signup' %}">Join</a></div>
+    <button class="catalog-menu-toggle" type="button" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main class="creator-directory">
+  <section class="creator-directory-hero">
+    <div class="container"><p class="eyebrow">The people behind the work</p><h1>Meet JAXMORA's creators.</h1><p>Explore filmmakers, comedians and visual-image creators shaping the stories we share. Musicians live in the music catalogue.</p></div>
+  </section>
+
+  <section class="creator-directory-content container" aria-labelledby="creator-directory-title">
+    <div class="creator-directory-heading"><div><p class="eyebrow">Creator directory</p><h2 id="creator-directory-title">Find someone new to follow.</h2></div><p id="creator-count" aria-live="polite"></p></div>
+    <div class="creator-tools">
+      <label class="catalog-search" for="creator-search"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.35-4.35m2.35-5.15a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z"/></svg><input id="creator-search" type="search" placeholder="Search creators by name"></label>
+      <div class="creator-filter" aria-label="Filter creators by category"><button class="is-active" type="button" data-creator-filter="all">All creators</button><button type="button" data-creator-filter="movies">Movies</button><button type="button" data-creator-filter="comedy">Comedy</button><button type="button" data-creator-filter="visual-images">Visual images</button></div>
+    </div>
+
+    <div class="creator-directory-grid" id="creator-list">
+      {% for creator in creators %}
+      <article class="directory-card" data-category="{{ creator.filter }}" data-creator-name="{{ creator.name|lower }} {{ creator.category|lower }}">
+        <img src="{{ creator.image }}" alt="Portrait of {{ creator.name }}" loading="lazy">
+        <div><p>{{ creator.category }}</p><h3>{{ creator.name }}</h3></div>
+      </article>
+      {% endfor %}
+    </div>
+    <div class="empty-creators" id="empty-creators" hidden><span>⌕</span><h3>No creators found</h3><p>Try another name or category.</p><button type="button" id="clear-creator-filters">Clear filters</button></div>
+  </section>
+</main>
+{% endblock %}
+
+{% block extra_js %}<script src="{% static 'frontend/js/creators.js' %}" defer></script>{% endblock %}

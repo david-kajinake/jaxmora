@@ -7,6 +7,11 @@ app_name = 'frontend'
 
 urlpatterns = [
     path('', views.home, name='home'),
+    path('films/', views.films, name='films'),
+    path('music/', views.music, name='music'),
+    path('comedy/', views.comedy, name='comedy'),
+    path('image-visuals/', views.image_visuals, name='image_visuals'),
+    path('creators/', views.creators, name='creators'),
     path('login/', views.login_view, name='login'),
     path('signup/', views.signup_view, name='signup'),
     path('reset-password/', views.password_reset_view, name='password_reset'),

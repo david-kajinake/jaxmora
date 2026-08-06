@@ -53,3 +53,34 @@ class AuthenticationPageTests(TestCase):
         self.assertRedirects(response, reverse('frontend:password_reset'))
         self.assertEqual(len(mail.outbox), 1)
         self.assertIn('Reset your JAXMORA password', mail.outbox[0].subject)
+
+
+class CataloguePageTests(TestCase):
+    def test_catalogue_pages_render_with_their_loader(self):
+        expected_pages = {
+            'films': 'films',
+            'music': 'music',
+            'comedy': 'comedy',
+            'image_visuals': 'visuals',
+        }
+
+        for route_name, page_name in expected_pages.items():
+            response = self.client.get(reverse(f'frontend:{route_name}'))
+
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, f'data-catalog-page="{page_name}"')
+            self.assertContains(response, 'id="load-more"')
+            self.assertContains(response, 'frontend/js/catalog.js')
+
+
+class CreatorDirectoryTests(TestCase):
+    def test_creator_directory_contains_only_requested_categories(self):
+        response = self.client.get(reverse('frontend:creators'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'jaxmora/creators.html')
+        self.assertContains(response, 'id="creator-search"')
+        self.assertContains(response, 'data-creator-filter="movies"')
+        self.assertContains(response, 'data-creator-filter="comedy"')
+        self.assertContains(response, 'data-creator-filter="visual-images"')
+        self.assertNotContains(response, 'Music creator')

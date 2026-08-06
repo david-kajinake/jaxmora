@@ -32,11 +32,11 @@
     </div>
     <nav class="primary-nav" id="primary-nav" aria-label="Primary navigation">
       <a class="active" href="#top">Home</a>
-      <a href="#films">Films</a>
-      <a href="#music">Music</a>
-      <a href="#comedy">Comedy</a>
-      <a href="#images">Images</a>
-      <a href="#creators">Creators</a>
+      <a href="{% url 'frontend:films' %}">Films</a>
+      <a href="{% url 'frontend:music' %}">Music</a>
+      <a href="{% url 'frontend:comedy' %}">Comedy</a>
+      <a href="{% url 'frontend:image_visuals' %}">Images</a>
+      <a href="{% url 'frontend:creators' %}">Creators</a>
       <a href="#why-jaxmora">Why JAXMORA</a>
     </nav>
   </header>
@@ -50,7 +50,7 @@
         <h1 id="hero-heading">Africa's home of <em>entertainment.</em></h1>
         <p class="hero-description">Discover films, music, comedy and visual stories from African creators with something original to say.</p>
         <div class="hero-actions">
-          <a class="button button-primary" href="#films">Explore content <span aria-hidden="true">↗</span></a>
+          <a class="button button-primary" href="{% url 'frontend:films' %}">Explore content <span aria-hidden="true">↗</span></a>
           <a class="text-link" href="#join">Become a creator <span aria-hidden="true">→</span></a>
         </div>
       </div>
@@ -67,10 +67,10 @@
     <section class="browse-bar container" aria-label="Browse content types">
       <p>Everything worth discovering, in one place.</p>
       <div class="browse-links">
-        <a href="#films">Cinema <span>01</span></a>
-        <a href="#music">Sound <span>02</span></a>
-        <a href="#comedy">Comedy <span>03</span></a>
-        <a href="#images">Visuals <span>04</span></a>
+        <a href="{% url 'frontend:films' %}">Cinema <span>01</span></a>
+        <a href="{% url 'frontend:music' %}">Sound <span>02</span></a>
+        <a href="{% url 'frontend:comedy' %}">Comedy <span>03</span></a>
+        <a href="{% url 'frontend:image_visuals' %}">Visuals <span>04</span></a>
       </div>
     </section>
 
@@ -80,7 +80,7 @@
           <p class="eyebrow">Watch now</p>
           <h2>Featured films</h2>
         </div>
-        <a class="view-all" href="#all-films">View all films <span>→</span></a>
+        <a class="view-all" href="{% url 'frontend:films' %}">View all films <span>→</span></a>
       </div>
       <div class="film-grid card-grid">
         <article class="film-card media-card" data-searchable="beyond horizon drama adwaire">
@@ -113,7 +113,7 @@
     <section class="content-section container" id="music" data-content-section>
       <div class="section-heading">
         <div><p class="eyebrow">Turn it up</p><h2>Trending music</h2></div>
-        <a class="view-all" href="#all-music">Explore music <span>→</span></a>
+        <a class="view-all" href="{% url 'frontend:music' %}">Explore music <span>→</span></a>
       </div>
       <div class="music-grid card-grid">
         <article class="music-card" data-searchable="riva midnight pulse electronic music"><img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=700&q=85" alt="Singer recording music in a studio"><button class="play-button" type="button" aria-label="Preview Midnight Pulse">▶</button><div><p class="track-number">01 · 03:12</p><h3>Midnight Pulse</h3><p>Riva M.</p><span>1,000 RWF</span></div></article>
@@ -124,7 +124,7 @@
     </section>
 
     <section class="content-section container" id="comedy" data-content-section>
-      <div class="section-heading"><div><p class="eyebrow">A good laugh</p><h2>Top comedy</h2></div><a class="view-all" href="#all-comedy">See more comedy <span>→</span></a></div>
+      <div class="section-heading"><div><p class="eyebrow">A good laugh</p><h2>Top comedy</h2></div><a class="view-all" href="{% url 'frontend:comedy' %}">See more comedy <span>→</span></a></div>
       <div class="comedy-grid card-grid">
         <article class="comedy-card" data-searchable="broken phone comedy rwandan boy"><img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=700&q=85" alt="Smiling comedian in a blazer"><span>12:45</span><div><h3>The Broken Phone</h3><p>Rwandan Boy</p></div></article>
         <article class="comedy-card" data-searchable="mamas advice comedy clation kibonge"><img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=700&q=85" alt="Woman smiling warmly"><span>10:32</span><div><h3>Mama's Advice</h3><p>Clation Kibonge</p></div></article>
@@ -134,7 +134,7 @@
     </section>
 
     <section class="content-section container" id="images" data-content-section>
-      <div class="section-heading"><div><p class="eyebrow">Frame the world</p><h2>Featured visuals</h2></div><a class="view-all" href="#all-images">Discover photography <span>→</span></a></div>
+      <div class="section-heading"><div><p class="eyebrow">Frame the world</p><h2>Featured visuals</h2></div><a class="view-all" href="{% url 'frontend:image_visuals' %}">Discover photography <span>→</span></a></div>
       <div class="image-grid card-grid">
         <article class="image-card" data-searchable="mountain peak innocent photos nature"><img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=900&q=85" alt="Clouds over a mountain peak"><div><h3>Mountain Peak</h3><p>Innocent Photos · 2,000 RWF</p></div></article>
         <article class="image-card" data-searchable="wedding moment bella photography"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=900&q=85" alt="A couple at their wedding"><div><h3>Wedding Moment</h3><p>Bella Photography · 3,000 RWF</p></div></article>
@@ -156,7 +156,7 @@
     </section>
 
     <section class="creators-section container" id="creators">
-      <div class="section-heading"><div><p class="eyebrow">Meet the talent</p><h2>Creators shaping culture</h2></div><a class="view-all" href="#all-creators">Meet all creators <span>→</span></a></div>
+      <div class="section-heading"><div><p class="eyebrow">Meet the talent</p><h2>Creators shaping culture</h2></div><a class="view-all" href="{% url 'frontend:creators' %}">Meet all creators <span>→</span></a></div>
       <div class="creator-list">
         <a href="#creator-clation" class="creator"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=160&q=85" alt="Clation Kibonge"><span><strong>Clation Kibonge</strong><small>Comedy · 125 products</small></span><i>↗</i></a>
         <a href="#creator-bruce" class="creator"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=160&q=85" alt="Bruce Melodie"><span><strong>Bruce Melodie</strong><small>Music · 98 products</small></span><i>↗</i></a>
@@ -173,7 +173,7 @@
   <footer class="site-footer">
     <div class="container footer-grid">
       <div class="footer-brand"><a class="brand" href="#top"><span class="brand-mark">J</span><span class="brand-name">JAX<span>MORA</span><small>.COM</small></span></a><p>Watch. Listen. Laugh. Create.</p><small>© 2026 JAXMORA. All rights reserved.</small></div>
-      <div><h3>Explore</h3><a href="#films">Films</a><a href="#music">Music</a><a href="#comedy">Comedy</a><a href="#images">Images</a></div>
+      <div><h3>Explore</h3><a href="{% url 'frontend:films' %}">Films</a><a href="{% url 'frontend:music' %}">Music</a><a href="{% url 'frontend:comedy' %}">Comedy</a><a href="{% url 'frontend:image_visuals' %}">Images</a></div>
       <div><h3>Company</h3><a href="#about">About us</a><a href="#creators">For creators</a><a href="#support">Help center</a><a href="#terms">Terms & privacy</a></div>
       <div class="newsletter"><h3>Stay in the loop</h3><p>Fresh stories and new creators, straight to your inbox.</p><form><label class="visually-hidden" for="newsletter-email">Email address</label><input id="newsletter-email" type="email" placeholder="Your email address"><button type="submit" aria-label="Subscribe">→</button></form><div class="socials"><a href="#instagram" aria-label="Instagram">ig</a><a href="#facebook" aria-label="Facebook">f</a><a href="#youtube" aria-label="YouTube">yt</a><a href="#x" aria-label="X">𝕏</a></div></div>
     </div>
