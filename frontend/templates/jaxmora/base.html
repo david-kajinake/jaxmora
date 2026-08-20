@@ -1,6 +1,6 @@
 {% load static %}
 <!doctype html>
-<html lang="en">
+<html lang="{{ user_preferences.language|default:'en' }}" data-font-size="{{ user_preferences.font_size|default:'medium' }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,13 +8,15 @@
   <title>{% block title %}JAXMORA | Africa's Home of Entertainment{% endblock %}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'frontend/css/home.css' %}?v={{latest_timestamp}}">
+  <link rel="stylesheet" href="{% static 'frontend/css/account.css' %}?v={{latest_timestamp}}">
   {% block extra_css %}{% endblock %}
 </head>
-<body>
+<body data-font-family="{{ user_preferences.font_family|default:'dm-sans' }}">
   {% block content %}{% endblock %}
   <script src="{% static 'frontend/js/home.js' %}" defer></script>
+  <script src="{% static 'frontend/js/account-menu.js' %}" defer></script>
   {% block extra_js %}{% endblock %}
 </body>
 </html>

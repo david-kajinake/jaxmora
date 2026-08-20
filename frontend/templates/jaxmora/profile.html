@@ -1,0 +1,48 @@
+{% extends 'jaxmora/account_base.html' %}
+
+{% block title %}Profile | JAXMORA{% endblock %}
+
+{% block account_content %}
+<section class="account-hero account-hero-short"><div class="container"><p class="eyebrow">Your account</p><h1>Profile and security</h1><p>Keep your details current and make sure your JAXMORA account stays secure.</p></div></section>
+
+<section class="account-content container profile-layout">
+  <div class="profile-main">
+    {% if messages %}{% for message in messages %}<div class="account-alert account-alert-success">{{ message }}</div>{% endfor %}{% endif %}
+    <section class="account-card" aria-labelledby="profile-details-heading">
+      <div class="account-section-heading"><div><p class="eyebrow">Personal details</p><h2 id="profile-details-heading">About you</h2></div><p>Your account identity and contact details.</p></div>
+      <form method="post" class="account-form" novalidate>
+        {% csrf_token %}<input type="hidden" name="action" value="profile">
+        {% if profile_form.non_field_errors %}<div class="account-alert">{{ profile_form.non_field_errors }}</div>{% endif %}
+        <div class="account-form-row"><div class="form-field"><label for="{{ profile_form.username.id_for_label }}">Username</label>{{ profile_form.username }}{% for error in profile_form.username.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div><div class="form-field"><label for="{{ profile_form.first_name.id_for_label }}">First name</label>{{ profile_form.first_name }}{% for error in profile_form.first_name.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div></div>
+        <div class="account-form-row"><div class="form-field"><label for="{{ profile_form.other_name.id_for_label }}">Other name</label>{{ profile_form.other_name }}{% for error in profile_form.other_name.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div><div class="form-field"><label for="{{ profile_form.phone_number.id_for_label }}">Phone number</label>{{ profile_form.phone_number }}{% for error in profile_form.phone_number.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div></div>
+        <div class="form-field"><label for="{{ profile_form.email_address.id_for_label }}">Email address</label>{{ profile_form.email_address }}{% for error in profile_form.email_address.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div>
+        <button class="button button-primary account-submit" type="submit">Save profile <span>→</span></button>
+      </form>
+    </section>
+
+    <section class="account-card" aria-labelledby="password-heading">
+      <div class="account-section-heading"><div><p class="eyebrow">Security</p><h2 id="password-heading">Change your password</h2></div><p>Use a strong password you do not use anywhere else.</p></div>
+      <form method="post" class="account-form" novalidate>
+        {% csrf_token %}<input type="hidden" name="action" value="password">
+        {% if password_form.non_field_errors %}<div class="account-alert">{{ password_form.non_field_errors }}</div>{% endif %}
+        <div class="form-field"><label for="{{ password_form.old_password.id_for_label }}">Current password</label>{{ password_form.old_password }}{% for error in password_form.old_password.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div>
+        <div class="account-form-row"><div class="form-field"><label for="{{ password_form.new_password1.id_for_label }}">New password</label>{{ password_form.new_password1 }}{% for error in password_form.new_password1.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div><div class="form-field"><label for="{{ password_form.new_password2.id_for_label }}">Confirm new password</label>{{ password_form.new_password2 }}{% for error in password_form.new_password2.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div></div>
+        <button class="button account-submit" type="submit">Update password <span>→</span></button>
+      </form>
+      <p class="account-help-text">Forgot your password? <a href="{% url 'frontend:password_reset' %}">Send yourself a secure reset link.</a></p>
+    </section>
+  </div>
+
+  <aside class="danger-card" aria-labelledby="delete-account-heading">
+    <p class="eyebrow">Danger zone</p><h2 id="delete-account-heading">Delete your account</h2>
+    <p>This permanently removes your profile and all content associated with your account. This cannot be undone.</p>
+    <form method="post" class="account-form" novalidate>
+      {% csrf_token %}<input type="hidden" name="action" value="delete">
+      {% if deletion_form.non_field_errors %}<div class="account-alert">{{ deletion_form.non_field_errors }}</div>{% endif %}
+      <div class="form-field"><label for="{{ deletion_form.username.id_for_label }}">Type your username to confirm</label>{{ deletion_form.username }}{% for error in deletion_form.username.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div>
+      <div class="form-field"><label for="{{ deletion_form.password.id_for_label }}">Current password</label>{{ deletion_form.password }}{% for error in deletion_form.password.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div>
+      <button class="button danger-button account-submit" type="submit">Delete my account</button>
+    </form>
+  </aside>
+</section>
+{% endblock %}

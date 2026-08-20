@@ -1,0 +1,59 @@
+{% extends 'jaxmora/account_base.html' %}
+
+{% block title %}Dashboard | JAXMORA{% endblock %}
+
+{% block account_content %}
+<section class="account-hero">
+  <div class="container">
+    <p class="eyebrow">Creator dashboard</p>
+    <h1>Share your work. See its reach.</h1>
+    <p>Manage your uploads and follow how audiences respond to the stories you put into the world.</p>
+  </div>
+</section>
+
+<section class="account-content container dashboard-layout">
+  <div class="dashboard-main">
+    {% if messages %}{% for message in messages %}<div class="account-alert account-alert-success">{{ message }}</div>{% endfor %}{% endif %}
+    <div class="account-section-heading">
+      <div><p class="eyebrow">Your performance</p><h2>Content analytics</h2></div>
+      <p>All-time activity across your published content.</p>
+    </div>
+    <div class="analytics-grid">
+      <article class="analytics-card"><span class="analytics-icon">◉</span><p>Total views</p><strong>{{ total_views }}</strong><small>Across all of your uploads</small></article>
+      <article class="analytics-card"><span class="analytics-icon">♥</span><p>Total likes</p><strong>{{ total_likes }}</strong><small>From the JAXMORA community</small></article>
+      <article class="analytics-card"><span class="analytics-icon">↑</span><p>Published content</p><strong>{{ total_uploads }}</strong><small>Films, music, comedy and visuals</small></article>
+    </div>
+
+    <section class="dashboard-recent" aria-labelledby="recent-uploads-heading">
+      <div class="account-section-heading compact"><div><p class="eyebrow">Your library</p><h2 id="recent-uploads-heading">Recent uploads</h2></div></div>
+      {% if recent_uploads %}
+        <div class="upload-list">
+          {% for item in recent_uploads %}
+            <article><span class="content-type-tag">{{ item.type }}</span><div><h3>{{ item.title }}</h3><p>Uploaded {{ item.uploaded_at|date:"M j, Y" }}</p></div><span class="upload-status">Published</span></article>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="empty-account-state"><span>✦</span><h3>Your story starts here.</h3><p>Upload your first piece of content to begin building your audience.</p></div>
+      {% endif %}
+    </section>
+  </div>
+
+  <aside class="upload-panel" aria-labelledby="upload-content-heading">
+    <p class="eyebrow">Create</p>
+    <h2 id="upload-content-heading">Upload content</h2>
+    <p>Fill in the details, then choose the video or image file you want to share.</p>
+    <form method="post" enctype="multipart/form-data" class="account-form" novalidate>
+      {% csrf_token %}
+      {% if upload_form.non_field_errors %}<div class="account-alert">{{ upload_form.non_field_errors }}</div>{% endif %}
+      <div class="form-field"><label for="{{ upload_form.content_type.id_for_label }}">{{ upload_form.content_type.label }}</label>{{ upload_form.content_type }}{% for error in upload_form.content_type.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div>
+      <div class="form-field"><label for="{{ upload_form.title.id_for_label }}">Title</label>{{ upload_form.title }}{% for error in upload_form.title.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div>
+      <div class="form-field"><label for="{{ upload_form.description.id_for_label }}">Description</label>{{ upload_form.description }}{% for error in upload_form.description.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div>
+      <div class="account-form-row"><div class="form-field"><label for="{{ upload_form.price.id_for_label }}">Price (RWF)</label>{{ upload_form.price }}{% for error in upload_form.price.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div><div class="form-field"><label for="{{ upload_form.year_released.id_for_label }}">Release year</label>{{ upload_form.year_released }}{% for error in upload_form.year_released.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div></div>
+      <div class="form-field"><label for="{{ upload_form.category.id_for_label }}">Category <span class="optional-label">(required for films and visuals)</span></label>{{ upload_form.category }}{% for error in upload_form.category.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div>
+      <div class="form-field"><label for="{{ upload_form.content_file.id_for_label }}">{{ upload_form.content_file.label }}</label>{{ upload_form.content_file }}{% for error in upload_form.content_file.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div>
+      <details class="upload-more-details"><summary>Add film details (optional)</summary><div class="form-field"><label for="{{ upload_form.trailer_link.id_for_label }}">Trailer link</label>{{ upload_form.trailer_link }}</div><div class="form-field"><label for="{{ upload_form.production_studio.id_for_label }}">Production studio</label>{{ upload_form.production_studio }}</div></details>
+      <button class="button button-primary account-submit" type="submit">Publish content <span>↑</span></button>
+    </form>
+  </aside>
+</section>
+{% endblock %}

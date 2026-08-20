@@ -1,5 +1,7 @@
 import time
 
+from api.models import UserPreferences
+
 #Get current timestamp to use when serving static files
 
 def current_timestamp():
@@ -10,8 +12,11 @@ def current_timestamp():
 
 
 def timestamp(request):
-    return{
-        "latest_timestamp": current_timestamp()
-         }
+    context = {"latest_timestamp": current_timestamp()}
+    if request.user.is_authenticated:
+        context['user_preferences'] = UserPreferences.objects.filter(
+            user=request.user
+        ).first()
+    return context
 
 

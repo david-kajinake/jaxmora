@@ -1,0 +1,8 @@
+asgiref==3.12.1
+Django==6.0.8
+django-filter==26.1
+djangorestframework==3.18.0
+Markdown==3.10.3
+python-ulid==4.0.1
+sqlparse==0.5.5
+tzdata==2026.3

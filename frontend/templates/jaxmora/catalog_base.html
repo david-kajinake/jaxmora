@@ -15,12 +15,18 @@
       <a class="{% block visuals_active %}{% endblock %}" href="{% url 'frontend:image_visuals' %}">Visuals</a>
       <a href="{% url 'frontend:creators' %}">Creators</a>
     </nav>
+    {% if request.user.is_authenticated %}
+      <div class="catalog-account">
+        {% include 'jaxmora/includes/account_dropdown.html' %}
+      </div>
+    {% else %}
     <div class="catalog-account"><a href="{% url 'frontend:login' %}">Sign in</a><a class="button button-small" href="{% url 'frontend:signup' %}">Join</a></div>
+    {% endif %}
     <button class="catalog-menu-toggle" type="button" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
 </header>
 
-<main class="catalog-page" data-catalog-page="{% block catalog_type %}{% endblock %}">
+<main class="catalog-page" data-catalog-page="{{ catalog_type }}">
   <section class="catalog-hero {% block hero_class %}{% endblock %}">
     <div class="container catalog-hero-content">
       <p class="eyebrow">{% block hero_eyebrow %}{% endblock %}</p>

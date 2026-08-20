@@ -1,0 +1,26 @@
+{% extends 'jaxmora/account_base.html' %}
+
+{% block title %}{{ legal_title }} | JAXMORA{% endblock %}
+
+{% block account_content %}
+<section class="account-hero account-hero-short"><div class="container"><p class="eyebrow">JAXMORA legal</p><h1>{{ legal_title }}</h1><p>Clear information about how we protect the community and operate the platform.</p></div></section>
+<section class="account-content container legal-content">
+    <article class="account-card legal-card">
+        {% if legal_kind == 'privacy' %}
+            <h2>Privacy policy</h2>
+                <p>We use the account details you provide to operate JAXMORA, deliver content, and keep your account secure. We do not sell your personal information.</p>
+                <h3>Information we keep</h3>
+                <p>Your profile information, account activity, purchases, and content uploads help us provide and improve the service. You can update your profile or request account deletion from your account pages.</p>
+                <h3>Your choices</h3>
+                <p>You control your display preferences and can change your profile details at any time. Contact JAXMORA support with questions about your information.</p>
+        {% else %}
+            <h2>Terms of service</h2>
+            <p>By using JAXMORA, you agree to use the platform lawfully and to respect creators, audiences, and intellectual-property rights.</p>
+            <h3>Content you upload</h3>
+            <p>You must have the rights to publish every item you upload. You remain responsible for your content and for the accuracy of its details.</p>
+            <h3>Account use</h3>
+            <p>Keep your password confidential and tell us promptly if you believe your account has been accessed without permission. We may remove content that violates these terms.</p>
+        {% endif %}
+    </article>
+</section>
+{% endblock %}

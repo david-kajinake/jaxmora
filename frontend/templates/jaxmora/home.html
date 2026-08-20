@@ -20,14 +20,17 @@
         <input id="site-search" type="search" placeholder="Search films, music, comedy, images..." autocomplete="off">
         <kbd>⌘ K</kbd>
       </form>
-
       <div class="account-actions">
+        {% if request.user.is_authenticated %}
+          {% include 'jaxmora/includes/account_dropdown.html' %}
+        {% else %}
         <a href="{% url 'frontend:login' %}">Sign in</a>
         <a class="button button-small" href="{% url 'frontend:signup' %}">Join JAXMORA</a>
         <a class="header-icon" href="#basket" aria-label="Shopping basket">
           <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 4h2l2.1 10.1a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 1.95-1.55L20 7H6.4M9.5 20a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0Zm8 0a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0Z"/></svg>
           <span class="basket-count">0</span>
         </a>
+        {% endif %}
       </div>
     </div>
     <nav class="primary-nav" id="primary-nav" aria-label="Primary navigation">

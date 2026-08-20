@@ -1,4 +1,4 @@
-{% extends 'jaxmora/base.html' %}
+{% extends 'jaxmora/catalog_base.html' %}
 {% load static %}
 
 {% block title %}Creators | JAXMORA{% endblock %}
@@ -11,8 +11,20 @@
     <nav aria-label="Main navigation">
       <a href="{% url 'frontend:home' %}">Home</a><a href="{% url 'frontend:films' %}">Films</a><a href="{% url 'frontend:music' %}">Music</a><a href="{% url 'frontend:comedy' %}">Comedy</a><a href="{% url 'frontend:image_visuals' %}">Visuals</a><a class="active" href="{% url 'frontend:creators' %}">Creators</a>
     </nav>
-    <div class="catalog-account"><a href="{% url 'frontend:login' %}">Sign in</a><a class="button button-small" href="{% url 'frontend:signup' %}">Join</a></div>
-    <button class="catalog-menu-toggle" type="button" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    {% if request.user.is_authenticated %}
+    <div class="catalog-account">
+      <a class="button button-small" href="#">
+        {% if request.user.first_name %}
+          {{ request.user.first_name }}
+        {% else %}
+          {{request.user.username}}
+        {% endif %}
+      </a>
+    </div>
+    {% else %}
+      <div class="catalog-account"><a href="{% url 'frontend:login' %}">Sign in</a><a class="button button-small" href="{% url 'frontend:signup' %}">Join</a></div>
+      <button class="catalog-menu-toggle" type="button" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    {% endif %}
   </div>
 </header>
 

@@ -87,7 +87,7 @@
   .catalog-nav nav { position: absolute; top: 62px; right: 0; left: 0; display: none; padding: 11px calc((100% - var(--container)) / 2) 17px; border-bottom: 1px solid var(--line); flex-wrap: wrap; gap: 0 22px; background: #101010; }
   .catalog-nav nav.is-open { display: flex; }
   .catalog-nav nav a { padding: 9px 0; font-size: .7rem; }
-  .catalog-account { display: none; }
+  .catalog-account { display: flex; margin-left: auto; }
   .catalog-menu-toggle { display: grid; width: 29px; gap: 5px; padding: 6px 0; border: 0; background: transparent; }
   .catalog-menu-toggle span { height: 1px; background: #fff; }
   .catalog-hero { min-height: 315px; }
