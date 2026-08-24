@@ -14,12 +14,7 @@
         <a href="{% url 'frontend:dashboard' %}">Dashboard</a>
       </nav>
       <div class="account-header-actions">
-        {% if request.user.is_authenticated %}
-          {% include 'jaxmora/includes/account_dropdown.html' %}
-        {% else %}
-          <a href="{% url 'frontend:login' %}">Sign in</a>
-          <a class="button button-small" href="{% url 'frontend:signup' %}">Join JAXMORA</a>
-        {% endif %}
+        {% include 'jaxmora/includes/auth_controls.html' %}
       </div>
     </div>
   </header>

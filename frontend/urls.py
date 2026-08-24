@@ -17,7 +17,6 @@ urlpatterns = [
     path('settings/', views.settings, name='settings'),
     path('privacy-policy/', views.privacy_policy, name='privacy_policy'),
     path('terms-of-service/', views.terms_of_service, name='terms_of_service'),
-    path('logout/', views.logout_view, name='logout'),
     path('login/', views.login_view, name='login'),
     path('signup/', views.signup_view, name='signup'),
     path('reset-password/', views.password_reset_view, name='password_reset'),

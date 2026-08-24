@@ -26,7 +26,8 @@ class Post(models.Model):
     id = models.CharField( max_length= 255, primary_key= True, default= generate_ulid )
     title = models.CharField( max_length= 255, null = False )
     description = models.TextField( max_length= 500)
-    price = models.DecimalField( decimal_places= 2, max_digits= 10 )
+    price = models.DecimalField( decimal_places= 2, max_digits= 10, null= True )
+    year_released = models.IntegerField()
     uploaded_at = models.DateField( auto_now_add= True )
     updated_at = models.DateField( auto_now= True )
     class Meta:
@@ -35,25 +36,68 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
-class Movie(Post):
+class Movie(Post): #A full ending movie
     owner = models.ForeignKey( User, on_delete= models.CASCADE, related_name ="movies" )
     video = models.FileField( upload_to= 'movie_videos/', null= False )
-    year_released = models.IntegerField()
     category = models.CharField( max_length = 255 )
     trailer_link = models.CharField( max_length= 255, null = True )
     production_studio = models.CharField( max_length= 255, null = True )
+
+class Serie(Post):# Seasonal series ( Episodic )
+    owner = models.ForeignKey( User, on_delete= models.CASCADE, related_name = 'series' )
+    category = models.CharField( max_length= 255 )
+
+
+class Season(models.Model):
+    id = models.CharField( max_length= 255, primary_key= True, default= generate_ulid )
+    serie = models.ForeignKey( Serie, on_delete= models.CASCADE, related_name= 'seasons' )
+    ref_number = models.PositiveIntegerField()
+    name = models.CharField( max_length= 255, blank=True )
+    year_released = models.PositiveIntegerField()
+    uploaded_at = models.DateField( auto_now_add= True )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=('serie', 'ref_number'),
+                name='unique_serie_season_number',
+            ),
+        ]
+        ordering = ('ref_number',)
+
+    def __str__( self ):
+        return f'{self.serie.title} Season {self.ref_number}'
+
+class Episode( models.Model ):
+    id = models.CharField( max_length= 255, primary_key= True, default= generate_ulid )
+    season = models.ForeignKey( Season, on_delete= models.CASCADE, related_name= 'episodes' )
+    name = models.CharField( max_length= 255 )
+    ref_number = models.PositiveIntegerField()
+    video = models.FileField( upload_to= 'serie_videos/', null= False )
+    uploaded_at = models.DateField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=('season', 'ref_number'),
+                name='unique_season_episode_number',
+            ),
+        ]
+        ordering = ('ref_number',)
+
+    def __str__( self ):
+        return f'{self.season.serie.title} Season {self.season.ref_number} Episode {self.ref_number}'
+
 
 
 class Music(Post):
     owner = models.ForeignKey( User, on_delete= models.CASCADE, related_name ="musics" )
     video = models.FileField(upload_to= "music_videos/", null = False)
-    year_released = models.IntegerField()
     category = models.CharField( max_length= 255, null = True )# Afro beat/HipHop/Reggae/Rock
 
 class Comedy(Post):
     owner = models.ForeignKey( User, on_delete= models.CASCADE, related_name ="comedies" )
     video = models.FileField(upload_to= "comedy_videos/", null= False)
-    year_released = models.IntegerField()
 
 
 
@@ -62,11 +106,8 @@ class VisualImage(Post):
     owner = models.ForeignKey( User, on_delete= models.CASCADE, related_name ="visual_images" )
     image = models.FileField(upload_to='visual_images/', null=True, blank=True)
     category = models.CharField( max_length= 255 )
-    year_released = models.IntegerField()
 
     
-
-
 class MovieLike(models.Model):
     movie = models.ForeignKey(Movie, on_delete= models.CASCADE, related_name= "likes")
     liker = models.ForeignKey(User, on_delete=models.CASCADE, related_name="movie_likes")

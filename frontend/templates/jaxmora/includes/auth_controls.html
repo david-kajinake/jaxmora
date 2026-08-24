@@ -1,0 +1,15 @@
+<div
+  class="account-auth-controls"
+  data-auth-controls
+  data-home-url="{% url 'frontend:home' %}"
+  data-login-url="{% url 'frontend:login' %}"
+  data-signup-url="{% url 'frontend:signup' %}"
+  data-dashboard-url="{% url 'frontend:dashboard' %}"
+  data-profile-url="{% url 'frontend:profile' %}"
+  data-settings-url="{% url 'frontend:settings' %}"
+  data-privacy-url="{% url 'frontend:privacy_policy' %}"
+  data-terms-url="{% url 'frontend:terms_of_service' %}"
+>
+  <a href="{% url 'frontend:login' %}">Sign in</a>
+  <a class="button button-small" href="{% url 'frontend:signup' %}">Join JAXMORA</a>
+</div>

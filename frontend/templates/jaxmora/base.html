@@ -16,7 +16,8 @@
 <body data-font-family="{{ user_preferences.font_family|default:'dm-sans' }}">
   {% block content %}{% endblock %}
   <script src="{% static 'frontend/js/home.js' %}" defer></script>
-  <script src="{% static 'frontend/js/account-menu.js' %}" defer></script>
-  {% block extra_js %}{% endblock %}
+  <script type="module" src="{% static 'frontend/js/session.js' %}"></script>
+  {% block extra_js %}
+  {% endblock %}
 </body>
 </html>

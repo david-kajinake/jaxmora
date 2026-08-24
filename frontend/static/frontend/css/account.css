@@ -9,6 +9,9 @@ body[data-font-family="arial"] { font-family: Arial, sans-serif; }
 body[data-font-family="georgia"] { font-family: Georgia, serif; }
 
 .account-menu { position: relative; }
+.account-auth-controls { display: flex; align-items: center; gap: 17px; }
+.catalog-account .account-auth-controls { gap: 18px; }
+.account-header-actions .account-auth-controls { gap: 16px; }
 .account-menu-trigger { max-width: 170px; gap: 8px; white-space: nowrap; }
 .account-menu-trigger > span:first-child { overflow: hidden; text-overflow: ellipsis; }
 .account-menu-chevron { color: var(--gold); font-size: 1rem; line-height: .5; transition: transform .2s ease; }
@@ -33,7 +36,8 @@ body[data-font-family="georgia"] { font-family: Georgia, serif; }
 .account-hero p:not(.eyebrow) { max-width: 590px; margin: 18px 0 0; color: #d2d2d2; font-size: .9rem; line-height: 1.7; }
 .account-content { padding-top: 62px; }
 .dashboard-layout { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(330px, .7fr); gap: 38px; align-items: start; }
-.profile-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(285px, .38fr); gap: 28px; align-items: start; }
+.profile-content { display: flex; justify-content: center; }
+.profile-main { width: min(100%, 760px); }
 .account-section-heading { display: flex; align-items: end; justify-content: space-between; gap: 22px; margin-bottom: 24px; }
 .account-section-heading.compact { margin-bottom: 16px; }
 .account-section-heading .eyebrow { margin-bottom: 9px; }
@@ -59,8 +63,21 @@ body[data-font-family="georgia"] { font-family: Georgia, serif; }
 .empty-account-state h3 { margin: 8px 0; color: #eee; font-size: .85rem; }
 .empty-account-state p { max-width: 300px; margin: 0 auto; font-size: .67rem; line-height: 1.6; }
 .upload-panel, .danger-card { padding: 25px; border: 1px solid rgba(212,175,55,.36); border-radius: 5px; background: #151515; }
+.upload-panels { display: grid; gap: 20px; }
 .upload-panel > .eyebrow, .danger-card > .eyebrow { margin-bottom: 8px; }
 .upload-panel > p:not(.eyebrow), .danger-card > p { margin: 12px 0 24px; color: #aaa; font-size: .7rem; line-height: 1.6; }
+.upload-type-picker { margin: 0 0 24px; padding: 0; border: 0; }
+.upload-type-picker legend { margin-bottom: 10px; color: #eee; font-size: .7rem; font-weight: 700; }
+.upload-type-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.upload-type-options label { position: relative; display: block; cursor: pointer; }
+.upload-type-options input { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+.upload-type-options span { display: block; padding: 11px 10px; border: 1px solid #3a3a3a; border-radius: 3px; color: #aaa; font-size: .66rem; font-weight: 700; text-align: center; transition: border-color .2s, background .2s, color .2s; }
+.upload-type-options input:checked + span { border-color: var(--gold); background: rgba(212,175,55,.13); color: var(--gold); }
+.upload-type-options input:focus-visible + span { outline: 2px solid #fff; outline-offset: 2px; }
+.upload-form-panel { padding-top: 22px; border-top: 1px solid rgba(255,255,255,.1); }
+.upload-form-heading { margin-bottom: 20px; }
+.upload-form-heading h3 { margin: 0; color: #f5f5f5; font-size: 1.05rem; letter-spacing: -.03em; }
+.upload-form-heading p { margin: 7px 0 0; color: #999; font-size: .68rem; line-height: 1.55; }
 .account-form { display: grid; gap: 15px; }
 .account-form-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
 .form-field { display: grid; gap: 7px; }
@@ -77,10 +94,20 @@ body[data-font-family="georgia"] { font-family: Georgia, serif; }
 .upload-more-details summary { cursor: pointer; color: var(--gold); font-weight: 700; }
 .upload-more-details[open] summary { margin-bottom: 13px; }
 .upload-more-details .form-field + .form-field { margin-top: 12px; }
+.serie-upload-panel { border-color: rgba(212,175,55,.52); }
+.episode-upload-list { display: grid; gap: 11px; }
+.episode-upload-row { position: relative; display: grid; gap: 11px; margin: 0; padding: 14px; border: 1px solid rgba(255,255,255,.12); border-radius: 4px; }
+.episode-upload-row legend { padding: 0 5px; color: var(--gold); font-size: .64rem; font-weight: 700; }
+.remove-episode { position: absolute; top: 7px; right: 8px; width: 24px; height: 24px; border: 1px solid #874848; border-radius: 50%; background: transparent; color: #ed9a9a; font-size: 1rem; line-height: 1; }
+.add-episode { justify-self: start; padding: 0 0 4px; border: 0; border-bottom: 1px solid var(--gold); background: transparent; color: var(--gold); font: inherit; font-size: .67rem; font-weight: 700; }
 .account-alert { padding: 11px 13px; border: 1px solid rgba(240,120,120,.45); border-radius: 3px; background: rgba(170,55,55,.12); color: #ffc3c3; font-size: .68rem; line-height: 1.45; }
 .account-alert ul { margin: 0; padding-left: 16px; }
 .account-alert-success { border-color: rgba(212,175,55,.45); background: rgba(212,175,55,.1); color: #f1d77e; }
-.profile-main > .account-card:first-of-type { margin-top: 0; }
+.profile-form-picker { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; margin-bottom: 20px; }
+.profile-form-picker button { min-height: 44px; padding: 10px; border: 1px solid #3a3a3a; border-radius: 3px; background: #151515; color: #aaa; font: inherit; font-size: .68rem; font-weight: 700; transition: border-color .2s, background .2s, color .2s; }
+.profile-form-picker button:hover, .profile-form-picker button:focus-visible { border-color: rgba(212,175,55,.65); color: #f2d86f; outline: 0; }
+.profile-form-picker button.is-active { border-color: var(--gold); background: rgba(212,175,55,.13); color: var(--gold); }
+.profile-form-panel { margin-top: 0; }
 .account-help-text { margin: 4px 0 0; color: #939393; font-size: .66rem; }
 .account-help-text a { color: var(--gold); font-weight: 700; }
 .danger-card { margin-top: 0; border-color: rgba(228,115,115,.5); }
@@ -104,6 +131,7 @@ body[data-font-family="georgia"] { font-family: Georgia, serif; }
   .site-header .header-inner { grid-template-columns: minmax(0, 1fr) auto auto; gap: 14px; }
   .site-header .mobile-menu-toggle { grid-column: 2; grid-row: 1; }
   .site-header .account-actions { display: flex; grid-column: 3; grid-row: 1; gap: 0; }
+  .site-header .account-auth-controls { gap: 0; }
   .site-header .account-menu-trigger { max-width: 112px; }
 }
 
@@ -111,8 +139,7 @@ body[data-font-family="georgia"] { font-family: Georgia, serif; }
   .account-header-inner { gap: 18px; }
   .account-nav { gap: 14px; }
   .account-nav a { font-size: .65rem; }
-  .profile-layout { grid-template-columns: 1fr; }
-  .danger-card { max-width: 520px; }
+  .danger-card { max-width: 100%; }
 }
 
 @media (max-width: 560px) {
@@ -120,6 +147,7 @@ body[data-font-family="georgia"] { font-family: Georgia, serif; }
   .account-nav { display: none; }
   .account-header-actions { margin-left: auto; }
   .account-menu-trigger { max-width: 135px; }
+  .account-auth-controls { gap: 10px; }
   .site-header .account-menu-trigger { max-width: 88px; padding-inline: 9px; }
   .account-hero, .account-hero-short { padding-block: 47px; }
   .account-content { padding-top: 38px; }
@@ -129,6 +157,8 @@ body[data-font-family="georgia"] { font-family: Georgia, serif; }
   .analytics-card { min-height: 130px; }
   .analytics-icon { margin-bottom: 13px; }
   .dashboard-recent, .account-card, .upload-panel, .danger-card { padding: 19px; }
+  .upload-type-options { grid-template-columns: 1fr; }
   .account-form-row { grid-template-columns: 1fr; gap: 15px; }
+  .profile-form-picker { grid-template-columns: 1fr; }
   .upload-status { display: none; }
 }

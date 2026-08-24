@@ -4,16 +4,14 @@
 
 {% block account_content %}
 <section class="account-hero account-hero-short"><div class="container"><p class="eyebrow">Your experience</p><h1>Display settings</h1><p>Choose the language and reading style that feels most comfortable for you.</p></div></section>
-
-<section class="account-content container settings-content">
+<section class="account-content container settings-content" data-jwt-protected data-jwt-settings>
   <section class="account-card settings-card" aria-labelledby="settings-heading">
-    {% if messages %}{% for message in messages %}<div class="account-alert account-alert-success">{{ message }}</div>{% endfor %}{% endif %}
+    <div class="account-alert" data-settings-alert hidden></div>
     <div class="account-section-heading"><div><p class="eyebrow">Preferences</p><h2 id="settings-heading">Make JAXMORA yours</h2></div><p>Your selection is applied across the site after saving.</p></div>
-    <form method="post" class="account-form settings-form" novalidate>
-      {% csrf_token %}
-      <div class="form-field"><label for="{{ settings_form.language.id_for_label }}">Language preference</label>{{ settings_form.language }}{% for error in settings_form.language.errors %}<p class="field-error">{{ error }}</p>{% endfor %}<p class="field-hint">Choose English, Kiswahili, Kinyarwanda, or Francais.</p></div>
-      <div class="form-field"><label for="{{ settings_form.font_size.id_for_label }}">Font size</label>{{ settings_form.font_size }}{% for error in settings_form.font_size.errors %}<p class="field-error">{{ error }}</p>{% endfor %}<p class="field-hint">Very small, small, medium, large, or very large.</p></div>
-      <div class="form-field"><label for="{{ settings_form.font_family.id_for_label }}">Font family</label>{{ settings_form.font_family }}{% for error in settings_form.font_family.errors %}<p class="field-error">{{ error }}</p>{% endfor %}<p class="field-hint">Select the typeface that is easiest for you to read.</p></div>
+    <form class="account-form settings-form" data-settings-form novalidate>
+      <div class="form-field"><label for="settings-language">Language preference</label><select id="settings-language" name="language"><option value="en">English</option><option value="sw">Kiswahili</option><option value="rw">Kinyarwanda</option><option value="fr">Francais</option></select><p class="field-hint">Choose English, Kiswahili, Kinyarwanda, or Francais.</p></div>
+      <div class="form-field"><label for="settings-font-size">Font size</label><select id="settings-font-size" name="font_size"><option value="very-small">Very small</option><option value="small">Small</option><option value="medium">Medium</option><option value="large">Large</option><option value="very-large">Very large</option></select><p class="field-hint">Very small, small, medium, large, or very large.</p></div>
+      <div class="form-field"><label for="settings-font-family">Font family</label><select id="settings-font-family" name="font_family"><option value="dm-sans">DM Sans</option><option value="inter">Inter</option><option value="arial">Arial</option><option value="georgia">Georgia</option></select><p class="field-hint">Select the typeface that is easiest for you to read.</p></div>
       <button class="button button-primary account-submit" type="submit">Save settings <span>→</span></button>
     </form>
   </section>

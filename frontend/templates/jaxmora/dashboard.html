@@ -4,56 +4,117 @@
 
 {% block account_content %}
 <section class="account-hero">
-  <div class="container">
-    <p class="eyebrow">Creator dashboard</p>
-    <h1>Share your work. See its reach.</h1>
-    <p>Manage your uploads and follow how audiences respond to the stories you put into the world.</p>
-  </div>
+  <div class="container"><p class="eyebrow">Creator dashboard</p><h1>Share your work. See its reach.</h1><p>Manage your uploads and follow how audiences respond to the stories you put into the world.</p></div>
 </section>
 
-<section class="account-content container dashboard-layout">
+<section class="account-content container dashboard-layout" data-jwt-protected data-jwt-dashboard>
   <div class="dashboard-main">
-    {% if messages %}{% for message in messages %}<div class="account-alert account-alert-success">{{ message }}</div>{% endfor %}{% endif %}
-    <div class="account-section-heading">
-      <div><p class="eyebrow">Your performance</p><h2>Content analytics</h2></div>
-      <p>All-time activity across your published content.</p>
-    </div>
+    <div class="account-alert" data-dashboard-alert hidden></div>
+    <div class="account-section-heading"><div><p class="eyebrow">Your performance</p><h2>Content analytics</h2></div><p>All-time activity across your published content.</p></div>
     <div class="analytics-grid">
-      <article class="analytics-card"><span class="analytics-icon">◉</span><p>Total views</p><strong>{{ total_views }}</strong><small>Across all of your uploads</small></article>
-      <article class="analytics-card"><span class="analytics-icon">♥</span><p>Total likes</p><strong>{{ total_likes }}</strong><small>From the JAXMORA community</small></article>
-      <article class="analytics-card"><span class="analytics-icon">↑</span><p>Published content</p><strong>{{ total_uploads }}</strong><small>Films, music, comedy and visuals</small></article>
+      <article class="analytics-card"><span class="analytics-icon">◉</span><p>Total views</p><strong data-analytics="total_views">—</strong><small>Across all of your uploads</small></article>
+      <article class="analytics-card"><span class="analytics-icon">♥</span><p>Total likes</p><strong data-analytics="total_likes">—</strong><small>From the JAXMORA community</small></article>
+      <article class="analytics-card"><span class="analytics-icon">↑</span><p>Published content</p><strong data-analytics="total_uploads">—</strong><small>Films, series, music, comedy and visuals</small></article>
     </div>
-
     <section class="dashboard-recent" aria-labelledby="recent-uploads-heading">
       <div class="account-section-heading compact"><div><p class="eyebrow">Your library</p><h2 id="recent-uploads-heading">Recent uploads</h2></div></div>
-      {% if recent_uploads %}
-        <div class="upload-list">
-          {% for item in recent_uploads %}
-            <article><span class="content-type-tag">{{ item.type }}</span><div><h3>{{ item.title }}</h3><p>Uploaded {{ item.uploaded_at|date:"M j, Y" }}</p></div><span class="upload-status">Published</span></article>
-          {% endfor %}
-        </div>
-      {% else %}
-        <div class="empty-account-state"><span>✦</span><h3>Your story starts here.</h3><p>Upload your first piece of content to begin building your audience.</p></div>
-      {% endif %}
+      <div class="upload-list" data-recent-uploads></div>
+      <div class="empty-account-state" data-empty-uploads hidden><span>✦</span><h3>Your story starts here.</h3><p>Upload your first piece of content to begin building your audience.</p></div>
     </section>
   </div>
 
-  <aside class="upload-panel" aria-labelledby="upload-content-heading">
-    <p class="eyebrow">Create</p>
-    <h2 id="upload-content-heading">Upload content</h2>
-    <p>Fill in the details, then choose the video or image file you want to share.</p>
-    <form method="post" enctype="multipart/form-data" class="account-form" novalidate>
-      {% csrf_token %}
-      {% if upload_form.non_field_errors %}<div class="account-alert">{{ upload_form.non_field_errors }}</div>{% endif %}
-      <div class="form-field"><label for="{{ upload_form.content_type.id_for_label }}">{{ upload_form.content_type.label }}</label>{{ upload_form.content_type }}{% for error in upload_form.content_type.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div>
-      <div class="form-field"><label for="{{ upload_form.title.id_for_label }}">Title</label>{{ upload_form.title }}{% for error in upload_form.title.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div>
-      <div class="form-field"><label for="{{ upload_form.description.id_for_label }}">Description</label>{{ upload_form.description }}{% for error in upload_form.description.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div>
-      <div class="account-form-row"><div class="form-field"><label for="{{ upload_form.price.id_for_label }}">Price (RWF)</label>{{ upload_form.price }}{% for error in upload_form.price.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div><div class="form-field"><label for="{{ upload_form.year_released.id_for_label }}">Release year</label>{{ upload_form.year_released }}{% for error in upload_form.year_released.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div></div>
-      <div class="form-field"><label for="{{ upload_form.category.id_for_label }}">Category <span class="optional-label">(required for films and visuals)</span></label>{{ upload_form.category }}{% for error in upload_form.category.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div>
-      <div class="form-field"><label for="{{ upload_form.content_file.id_for_label }}">{{ upload_form.content_file.label }}</label>{{ upload_form.content_file }}{% for error in upload_form.content_file.errors %}<p class="field-error">{{ error }}</p>{% endfor %}</div>
-      <details class="upload-more-details"><summary>Add film details (optional)</summary><div class="form-field"><label for="{{ upload_form.trailer_link.id_for_label }}">Trailer link</label>{{ upload_form.trailer_link }}</div><div class="form-field"><label for="{{ upload_form.production_studio.id_for_label }}">Production studio</label>{{ upload_form.production_studio }}</div></details>
-      <button class="button button-primary account-submit" type="submit">Publish content <span>↑</span></button>
-    </form>
+  <aside class="upload-panels" aria-label="Content upload tools">
+    <section class="upload-panel" aria-labelledby="upload-content-heading">
+      <p class="eyebrow">Create</p><h2 id="upload-content-heading">Upload content</h2><p>Choose a content type to open only the form you need.</p>
+      <fieldset class="upload-type-picker" data-upload-type-picker>
+        <legend>What would you like to publish?</legend>
+        <div class="upload-type-options">
+          <label><input type="radio" name="upload_type" value="movie" data-upload-type-control aria-controls="upload-form-movie" checked><span>Movie</span></label>
+          <label><input type="radio" name="upload_type" value="music" data-upload-type-control aria-controls="upload-form-music"><span>Music</span></label>
+          <label><input type="radio" name="upload_type" value="visual" data-upload-type-control aria-controls="upload-form-visual"><span>Visual image</span></label>
+          <label><input type="radio" name="upload_type" value="comedy" data-upload-type-control aria-controls="upload-form-comedy"><span>Comedy</span></label>
+          <label><input type="radio" name="upload_type" value="serie" data-upload-type-control aria-controls="upload-form-serie"><span>Serie</span></label>
+        </div>
+      </fieldset>
+
+      <section class="upload-form-panel" id="upload-form-movie" data-upload-form-panel="movie" aria-labelledby="movie-form-heading">
+        <div class="upload-form-heading"><h3 id="movie-form-heading">Upload a movie</h3><p>Share a full film, short film, or documentary.</p></div>
+        <form enctype="multipart/form-data" class="account-form" data-content-upload-form novalidate>
+          <input type="hidden" name="content_type" value="movie">
+          <div class="form-field"><label for="movie-title">Title</label><input id="movie-title" name="title" maxlength="255" required></div>
+          <div class="form-field"><label for="movie-description">Description</label><textarea id="movie-description" name="description" rows="4" maxlength="500" required></textarea></div>
+          <div class="account-form-row"><div class="form-field"><label for="movie-price">Price (RWF)</label><input id="movie-price" name="price" type="number" min="0" step="0.01" required></div><div class="form-field"><label for="movie-year">Release year</label><input id="movie-year" name="year_released" type="number" min="1888" max="2100" required></div></div>
+          <div class="form-field"><label for="movie-category">Category</label><input id="movie-category" name="category" maxlength="255" required></div>
+          <div class="form-field"><label for="movie-file">Movie file</label><input id="movie-file" name="content_file" type="file" accept="video/*" required></div>
+          <details class="upload-more-details"><summary>Add movie details (optional)</summary><div class="form-field"><label for="movie-trailer">Trailer link</label><input id="movie-trailer" name="trailer_link" type="url"></div><div class="form-field"><label for="movie-studio">Production studio</label><input id="movie-studio" name="production_studio" maxlength="255"></div></details>
+          <button class="button button-primary account-submit" type="submit">Publish movie <span>↑</span></button>
+        </form>
+      </section>
+
+      <section class="upload-form-panel" id="upload-form-music" data-upload-form-panel="music" aria-labelledby="music-form-heading" hidden>
+        <div class="upload-form-heading"><h3 id="music-form-heading">Upload music</h3><p>Share a song, EP, or other original recording.</p></div>
+        <form enctype="multipart/form-data" class="account-form" data-content-upload-form novalidate>
+          <input type="hidden" name="content_type" value="music">
+          <div class="form-field"><label for="music-title">Title</label><input id="music-title" name="title" maxlength="255" required></div>
+          <div class="form-field"><label for="music-description">Description</label><textarea id="music-description" name="description" rows="4" maxlength="500" required></textarea></div>
+          <div class="account-form-row"><div class="form-field"><label for="music-price">Price (RWF)</label><input id="music-price" name="price" type="number" min="0" step="0.01" required></div><div class="form-field"><label for="music-year">Release year</label><input id="music-year" name="year_released" type="number" min="1888" max="2100" required></div></div>
+          <div class="form-field"><label for="music-category">Genre <span class="optional-label">(optional)</span></label><input id="music-category" name="category" maxlength="255"></div>
+          <div class="form-field"><label for="music-file">Music file</label><input id="music-file" name="content_file" type="file" accept="audio/*" required></div>
+          <button class="button button-primary account-submit" type="submit">Publish music <span>↑</span></button>
+        </form>
+      </section>
+
+      <section class="upload-form-panel" id="upload-form-visual" data-upload-form-panel="visual" aria-labelledby="visual-form-heading" hidden>
+        <div class="upload-form-heading"><h3 id="visual-form-heading">Upload a visual image</h3><p>Publish photography, illustrations, and other visual work.</p></div>
+        <form enctype="multipart/form-data" class="account-form" data-content-upload-form novalidate>
+          <input type="hidden" name="content_type" value="visual">
+          <div class="form-field"><label for="visual-title">Title</label><input id="visual-title" name="title" maxlength="255" required></div>
+          <div class="form-field"><label for="visual-description">Description</label><textarea id="visual-description" name="description" rows="4" maxlength="500" required></textarea></div>
+          <div class="account-form-row"><div class="form-field"><label for="visual-price">Price (RWF)</label><input id="visual-price" name="price" type="number" min="0" step="0.01" required></div><div class="form-field"><label for="visual-year">Release year</label><input id="visual-year" name="year_released" type="number" min="1888" max="2100" required></div></div>
+          <div class="form-field"><label for="visual-category">Category</label><input id="visual-category" name="category" maxlength="255" required></div>
+          <div class="form-field"><label for="visual-file">Image file</label><input id="visual-file" name="content_file" type="file" accept="image/*" required></div>
+          <button class="button button-primary account-submit" type="submit">Publish visual image <span>↑</span></button>
+        </form>
+      </section>
+
+      <section class="upload-form-panel" id="upload-form-comedy" data-upload-form-panel="comedy" aria-labelledby="comedy-form-heading" hidden>
+        <div class="upload-form-heading"><h3 id="comedy-form-heading">Upload comedy</h3><p>Share a stand-up set, sketch, or comedy performance.</p></div>
+        <form enctype="multipart/form-data" class="account-form" data-content-upload-form novalidate>
+          <input type="hidden" name="content_type" value="comedy">
+          <div class="form-field"><label for="comedy-title">Title</label><input id="comedy-title" name="title" maxlength="255" required></div>
+          <div class="form-field"><label for="comedy-description">Description</label><textarea id="comedy-description" name="description" rows="4" maxlength="500" required></textarea></div>
+          <div class="account-form-row"><div class="form-field"><label for="comedy-price">Price (RWF)</label><input id="comedy-price" name="price" type="number" min="0" step="0.01" required></div><div class="form-field"><label for="comedy-year">Release year</label><input id="comedy-year" name="year_released" type="number" min="1888" max="2100" required></div></div>
+          <div class="form-field"><label for="comedy-file">Comedy video</label><input id="comedy-file" name="content_file" type="file" accept="video/*" required></div>
+          <button class="button button-primary account-submit" type="submit">Publish comedy <span>↑</span></button>
+        </form>
+      </section>
+
+      <section class="upload-form-panel serie-upload-panel" id="upload-form-serie" data-upload-form-panel="serie" aria-labelledby="upload-serie-heading" hidden>
+        <div class="upload-form-heading"><h3 id="upload-serie-heading">Upload a serie</h3><p>Create a series, its first season, and one or more episodes together.</p></div>
+        <form enctype="multipart/form-data" class="account-form" data-serie-upload-form novalidate>
+          <div class="form-field"><label for="{{ serie_form.title.id_for_label }}">Series title</label>{{ serie_form.title }}</div>
+          <div class="form-field"><label for="{{ serie_form.description.id_for_label }}">Description</label>{{ serie_form.description }}</div>
+          <div class="account-form-row"><div class="form-field"><label for="{{ serie_form.price.id_for_label }}">Price (RWF)</label>{{ serie_form.price }}</div><div class="form-field"><label for="{{ serie_form.year_released.id_for_label }}">Series release year</label>{{ serie_form.year_released }}</div></div>
+          <div class="form-field"><label for="{{ serie_form.category.id_for_label }}">Category</label>{{ serie_form.category }}</div>
+          <div class="account-form-row"><div class="form-field"><label for="{{ serie_form.season_number.id_for_label }}">Season number</label>{{ serie_form.season_number }}</div><div class="form-field"><label for="{{ serie_form.season_year.id_for_label }}">Season release year</label>{{ serie_form.season_year }}</div></div>
+          <div class="form-field"><label for="{{ serie_form.season_name.id_for_label }}">Season name <span class="optional-label">(optional)</span></label>{{ serie_form.season_name }}</div>
+          {{ episode_formset.management_form }}
+          <div class="episode-upload-list" data-episode-list>
+            {% for episode_form in episode_formset %}
+              <fieldset class="episode-upload-row" data-episode-row>
+                <legend>Episode <span data-episode-label>{{ forloop.counter }}</span></legend>
+                <button class="remove-episode" type="button" data-remove-episode aria-label="Remove episode" hidden>×</button>
+                <div class="form-field"><label for="{{ episode_form.name.id_for_label }}">Episode title</label>{{ episode_form.name }}</div>
+                <div class="form-field"><label for="{{ episode_form.ref_number.id_for_label }}">Episode number</label>{{ episode_form.ref_number }}</div>
+                <div class="form-field"><label for="{{ episode_form.video.id_for_label }}">Episode video</label>{{ episode_form.video }}</div>
+              </fieldset>
+            {% endfor %}
+          </div>
+          <button class="add-episode" type="button" data-add-episode>+ Add another episode</button>
+          <button class="button button-primary account-submit" type="submit">Publish serie <span>↑</span></button>
+        </form>
+      </section>
+    </section>
   </aside>
 </section>
 {% endblock %}

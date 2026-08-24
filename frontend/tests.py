@@ -69,6 +69,45 @@ class AuthenticationPageTests(TestCase):
         self.assertIn('Reset your JAXMORA password', mail.outbox[0].subject)
 
 
+class DashboardUploadChooserTests(TestCase):
+    def test_dashboard_renders_one_selectable_form_per_content_type(self):
+        response = self.client.get(reverse('frontend:dashboard'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'data-upload-type-picker')
+        for content_type in ('movie', 'music', 'visual', 'comedy', 'serie'):
+            self.assertContains(
+                response,
+                f'data-upload-type-control aria-controls="upload-form-{content_type}"',
+            )
+            self.assertContains(
+                response, f'data-upload-form-panel="{content_type}"'
+            )
+        self.assertContains(response, 'id="upload-form-movie"')
+        self.assertContains(response, 'id="upload-form-music"')
+        self.assertContains(response, 'id="upload-form-visual"')
+        self.assertContains(response, 'id="upload-form-comedy"')
+        self.assertContains(response, 'id="upload-form-serie"')
+
+
+class ProfileFormChooserTests(TestCase):
+    def test_profile_renders_clickable_references_for_each_form(self):
+        response = self.client.get(reverse('frontend:profile'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'data-profile-form-picker')
+        for form_type in ('details', 'password', 'delete'):
+            self.assertContains(
+                response, f'data-profile-form-target="{form_type}"'
+            )
+            self.assertContains(
+                response, f'data-profile-form-panel="{form_type}"'
+            )
+        self.assertContains(response, 'id="profile-details-panel"')
+        self.assertContains(response, 'id="profile-password-panel"')
+        self.assertContains(response, 'id="profile-delete-panel"')
+
+
 class CataloguePageTests(TestCase):
     def test_catalogue_pages_render_with_their_loader(self):
         expected_pages = {

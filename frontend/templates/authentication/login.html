@@ -7,41 +7,18 @@
 {% block content %}
 <main class="auth-page">
   <aside class="auth-showcase auth-showcase-login">
-    <a class="brand" href="{% url 'frontend:home' %}" aria-label="JAXMORA home">
-      <span class="brand-mark">J</span>
-      <span class="brand-name">JAX<span>MORA</span><small>.COM</small></span>
-    </a>
-    <div class="showcase-copy">
-      <p class="eyebrow">Your world of stories</p>
-      <h1>Come back to what moves you.</h1>
-      <p>Pick up your favourite African films, music, comedy and photography whenever the moment feels right.</p>
-    </div>
+    <a class="brand" href="{% url 'frontend:home' %}" aria-label="JAXMORA home"><span class="brand-mark">J</span><span class="brand-name">JAX<span>MORA</span><small>.COM</small></span></a>
+    <div class="showcase-copy"><p class="eyebrow">Your world of stories</p><h1>Come back to what moves you.</h1><p>Pick up your favourite African films, music, comedy and photography whenever the moment feels right.</p></div>
     <p class="showcase-caption">Watch. Listen. Laugh. Create.</p>
   </aside>
-
   <section class="auth-panel" aria-labelledby="login-title">
     <a class="auth-home-link" href="{% url 'frontend:home' %}">← Back to home</a>
     <div class="auth-card">
-      <p class="eyebrow">Welcome back</p>
-      <h2 id="login-title">Sign in to JAXMORA</h2>
-      <p class="auth-intro">Enter your details to continue discovering original African stories.</p>
-
-      {% if form.non_field_errors %}<div class="form-alert">{{ form.non_field_errors }}</div>{% endif %}
-      {% if messages %}{% for message in messages %}<div class="form-alert form-alert-success">{{ message }}</div>{% endfor %}{% endif %}
-
-      <form method="post" class="auth-form" novalidate>
-        {% csrf_token %}
-        <div class="form-field">
-          <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
-          {{ form.username }}
-          {% for error in form.username.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
-        </div>
-        <div class="form-field">
-          <div class="label-row"><label for="{{ form.password.id_for_label }}">{{ form.password.label }}</label><a href="{% url 'frontend:password_reset' %}">Forgot password?</a></div>
-          <div class="password-control">{{ form.password }}<button type="button" class="password-toggle" aria-label="Show password">Show</button></div>
-          {% for error in form.password.errors %}<p class="field-error">{{ error }}</p>{% endfor %}
-        </div>
-        <label class="check-field"><input type="checkbox" name="remember_me"><span>Keep me signed in on this device</span></label>
+      <p class="eyebrow">Welcome back</p><h2 id="login-title">Sign in to JAXMORA</h2><p class="auth-intro">Enter your details to continue discovering original African stories.</p>
+      <div class="form-alert" data-auth-error hidden></div>
+      <form class="auth-form" data-jwt-login-form novalidate>
+        <div class="form-field"><label for="login-username">Username</label><input id="login-username" name="username" type="text" autocomplete="username" placeholder="Enter your username" required></div>
+        <div class="form-field"><div class="label-row"><label for="login-password">Password</label><a href="{% url 'frontend:password_reset' %}">Forgot password?</a></div><div class="password-control"><input id="login-password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required><button type="button" class="password-toggle" aria-label="Show password">Show</button></div></div>
         <button class="button button-primary auth-submit" type="submit">Sign in <span>→</span></button>
       </form>
       <p class="auth-switch">New to JAXMORA? <a href="{% url 'frontend:signup' %}">Create an account</a></p>
