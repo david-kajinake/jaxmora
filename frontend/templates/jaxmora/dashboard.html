@@ -10,20 +10,23 @@
 <section class="account-content container dashboard-layout" data-jwt-protected data-jwt-dashboard>
   <div class="dashboard-main">
     <div class="account-alert" data-dashboard-alert hidden></div>
-    <div class="account-section-heading"><div><p class="eyebrow">Your performance</p><h2>Content analytics</h2></div><p>All-time activity across your published content.</p></div>
+    <div class="account-section-heading"><div><p class="eyebrow">Your performance</p><h2>Content analytics</h2></div><button class="button button-primary dashboard-upload-trigger" type="button" data-open-upload-dialog>Upload content <span>↑</span></button></div>
     <div class="analytics-grid">
       <article class="analytics-card"><span class="analytics-icon">◉</span><p>Total views</p><strong data-analytics="total_views">—</strong><small>Across all of your uploads</small></article>
       <article class="analytics-card"><span class="analytics-icon">♥</span><p>Total likes</p><strong data-analytics="total_likes">—</strong><small>From the JAXMORA community</small></article>
-      <article class="analytics-card"><span class="analytics-icon">↑</span><p>Published content</p><strong data-analytics="total_uploads">—</strong><small>Films, series, music, comedy and visuals</small></article>
+      <button class="analytics-card analytics-card-action" type="button" data-open-library aria-label="View all published content"><span class="analytics-icon">↑</span><p>Published content</p><strong data-analytics="total_uploads">—</strong><small>View and manage your library</small></button>
     </div>
     <section class="dashboard-recent" aria-labelledby="recent-uploads-heading">
-      <div class="account-section-heading compact"><div><p class="eyebrow">Your library</p><h2 id="recent-uploads-heading">Recent uploads</h2></div></div>
+      <div class="account-section-heading compact"><div><p class="eyebrow">Your library</p><h2 id="recent-uploads-heading">Recent uploads</h2></div><button class="dashboard-text-button" type="button" data-open-library>View all content</button></div>
       <div class="upload-list" data-recent-uploads></div>
       <div class="empty-account-state" data-empty-uploads hidden><span>✦</span><h3>Your story starts here.</h3><p>Upload your first piece of content to begin building your audience.</p></div>
     </section>
   </div>
 
-  <aside class="upload-panels" aria-label="Content upload tools">
+  <dialog class="dashboard-dialog upload-dialog" data-upload-dialog aria-labelledby="upload-content-heading">
+    <div class="dashboard-dialog-shell">
+      <button class="dialog-close" type="button" data-close-dialog aria-label="Close upload dialog">×</button>
+      <aside class="upload-panels" aria-label="Content upload tools">
     <section class="upload-panel" aria-labelledby="upload-content-heading">
       <p class="eyebrow">Create</p><h2 id="upload-content-heading">Upload content</h2><p>Choose a content type to open only the form you need.</p>
       <fieldset class="upload-type-picker" data-upload-type-picker>
@@ -45,6 +48,7 @@
           <div class="form-field"><label for="movie-description">Description</label><textarea id="movie-description" name="description" rows="4" maxlength="500" required></textarea></div>
           <div class="account-form-row"><div class="form-field"><label for="movie-price">Price (RWF)</label><input id="movie-price" name="price" type="number" min="0" step="0.01" required></div><div class="form-field"><label for="movie-year">Release year</label><input id="movie-year" name="year_released" type="number" min="1888" max="2100" required></div></div>
           <div class="form-field"><label for="movie-category">Category</label><input id="movie-category" name="category" maxlength="255" required></div>
+          <div class="form-field"><label for="movie-thumbnail">Thumbnail <span class="optional-label">(optional)</span></label><input id="movie-thumbnail" name="thumbnail" type="file" accept="image/*"><p class="field-hint">Shown on content cards before viewers open the movie.</p></div>
           <div class="form-field"><label for="movie-file">Movie file</label><input id="movie-file" name="content_file" type="file" accept="video/*" required></div>
           <details class="upload-more-details"><summary>Add movie details (optional)</summary><div class="form-field"><label for="movie-trailer">Trailer link</label><input id="movie-trailer" name="trailer_link" type="url"></div><div class="form-field"><label for="movie-studio">Production studio</label><input id="movie-studio" name="production_studio" maxlength="255"></div></details>
           <button class="button button-primary account-submit" type="submit">Publish movie <span>↑</span></button>
@@ -59,6 +63,7 @@
           <div class="form-field"><label for="music-description">Description</label><textarea id="music-description" name="description" rows="4" maxlength="500" required></textarea></div>
           <div class="account-form-row"><div class="form-field"><label for="music-price">Price (RWF)</label><input id="music-price" name="price" type="number" min="0" step="0.01" required></div><div class="form-field"><label for="music-year">Release year</label><input id="music-year" name="year_released" type="number" min="1888" max="2100" required></div></div>
           <div class="form-field"><label for="music-category">Genre <span class="optional-label">(optional)</span></label><input id="music-category" name="category" maxlength="255"></div>
+          <div class="form-field"><label for="music-thumbnail">Thumbnail <span class="optional-label">(optional)</span></label><input id="music-thumbnail" name="thumbnail" type="file" accept="image/*"><p class="field-hint">Shown on content cards before listeners open the music.</p></div>
           <div class="form-field"><label for="music-file">Music file</label><input id="music-file" name="content_file" type="file" accept="audio/*" required></div>
           <button class="button button-primary account-submit" type="submit">Publish music <span>↑</span></button>
         </form>
@@ -72,6 +77,7 @@
           <div class="form-field"><label for="visual-description">Description</label><textarea id="visual-description" name="description" rows="4" maxlength="500" required></textarea></div>
           <div class="account-form-row"><div class="form-field"><label for="visual-price">Price (RWF)</label><input id="visual-price" name="price" type="number" min="0" step="0.01" required></div><div class="form-field"><label for="visual-year">Release year</label><input id="visual-year" name="year_released" type="number" min="1888" max="2100" required></div></div>
           <div class="form-field"><label for="visual-category">Category</label><input id="visual-category" name="category" maxlength="255" required></div>
+          <div class="form-field"><label for="visual-thumbnail">Thumbnail <span class="optional-label">(optional)</span></label><input id="visual-thumbnail" name="thumbnail" type="file" accept="image/*"><p class="field-hint">Use a separate cover image, or leave this empty to use the visual itself.</p></div>
           <div class="form-field"><label for="visual-file">Image file</label><input id="visual-file" name="content_file" type="file" accept="image/*" required></div>
           <button class="button button-primary account-submit" type="submit">Publish visual image <span>↑</span></button>
         </form>
@@ -84,37 +90,68 @@
           <div class="form-field"><label for="comedy-title">Title</label><input id="comedy-title" name="title" maxlength="255" required></div>
           <div class="form-field"><label for="comedy-description">Description</label><textarea id="comedy-description" name="description" rows="4" maxlength="500" required></textarea></div>
           <div class="account-form-row"><div class="form-field"><label for="comedy-price">Price (RWF)</label><input id="comedy-price" name="price" type="number" min="0" step="0.01" required></div><div class="form-field"><label for="comedy-year">Release year</label><input id="comedy-year" name="year_released" type="number" min="1888" max="2100" required></div></div>
+          <div class="form-field"><label for="comedy-thumbnail">Thumbnail <span class="optional-label">(optional)</span></label><input id="comedy-thumbnail" name="thumbnail" type="file" accept="image/*"><p class="field-hint">Shown on content cards before viewers open the comedy.</p></div>
           <div class="form-field"><label for="comedy-file">Comedy video</label><input id="comedy-file" name="content_file" type="file" accept="video/*" required></div>
           <button class="button button-primary account-submit" type="submit">Publish comedy <span>↑</span></button>
         </form>
       </section>
 
       <section class="upload-form-panel serie-upload-panel" id="upload-form-serie" data-upload-form-panel="serie" aria-labelledby="upload-serie-heading" hidden>
-        <div class="upload-form-heading"><h3 id="upload-serie-heading">Upload a serie</h3><p>Create a series, its first season, and one or more episodes together.</p></div>
+        <div class="upload-form-heading"><h3 id="upload-serie-heading">Upload a serie</h3><p>Create a series with as many first seasons and episodes as you are ready to publish.</p></div>
         <form enctype="multipart/form-data" class="account-form" data-serie-upload-form novalidate>
-          <div class="form-field"><label for="{{ serie_form.title.id_for_label }}">Series title</label>{{ serie_form.title }}</div>
-          <div class="form-field"><label for="{{ serie_form.description.id_for_label }}">Description</label>{{ serie_form.description }}</div>
-          <div class="account-form-row"><div class="form-field"><label for="{{ serie_form.price.id_for_label }}">Price (RWF)</label>{{ serie_form.price }}</div><div class="form-field"><label for="{{ serie_form.year_released.id_for_label }}">Series release year</label>{{ serie_form.year_released }}</div></div>
-          <div class="form-field"><label for="{{ serie_form.category.id_for_label }}">Category</label>{{ serie_form.category }}</div>
-          <div class="account-form-row"><div class="form-field"><label for="{{ serie_form.season_number.id_for_label }}">Season number</label>{{ serie_form.season_number }}</div><div class="form-field"><label for="{{ serie_form.season_year.id_for_label }}">Season release year</label>{{ serie_form.season_year }}</div></div>
-          <div class="form-field"><label for="{{ serie_form.season_name.id_for_label }}">Season name <span class="optional-label">(optional)</span></label>{{ serie_form.season_name }}</div>
-          {{ episode_formset.management_form }}
-          <div class="episode-upload-list" data-episode-list>
-            {% for episode_form in episode_formset %}
-              <fieldset class="episode-upload-row" data-episode-row>
-                <legend>Episode <span data-episode-label>{{ forloop.counter }}</span></legend>
-                <button class="remove-episode" type="button" data-remove-episode aria-label="Remove episode" hidden>×</button>
-                <div class="form-field"><label for="{{ episode_form.name.id_for_label }}">Episode title</label>{{ episode_form.name }}</div>
-                <div class="form-field"><label for="{{ episode_form.ref_number.id_for_label }}">Episode number</label>{{ episode_form.ref_number }}</div>
-                <div class="form-field"><label for="{{ episode_form.video.id_for_label }}">Episode video</label>{{ episode_form.video }}</div>
-              </fieldset>
-            {% endfor %}
+          <div class="form-field"><label for="serie-title">Series title</label><input id="serie-title" name="title" maxlength="255" required></div>
+          <div class="form-field"><label for="serie-description">Description</label><textarea id="serie-description" name="description" rows="4" maxlength="500" required></textarea></div>
+          <div class="account-form-row"><div class="form-field"><label for="serie-price">Price (RWF)</label><input id="serie-price" name="price" type="number" min="0" step="0.01" required></div><div class="form-field"><label for="serie-year">Series release year</label><input id="serie-year" name="year_released" type="number" min="1888" max="2100" required></div></div>
+          <div class="form-field"><label for="serie-category">Category</label><input id="serie-category" name="category" maxlength="255" required></div>
+          <div class="form-field"><label for="serie-thumbnail">Series thumbnail <span class="optional-label">(optional)</span></label><input id="serie-thumbnail" name="thumbnail" type="file" accept="image/*"><p class="field-hint">Shown before viewers open the series or choose an episode.</p></div>
+          <div class="season-count-control"><div class="form-field"><label for="serie-season-count">Seasons to upload now</label><input id="serie-season-count" type="number" min="1" max="20" value="1" data-season-count></div><button class="button button-small" type="button" data-apply-season-count>Set seasons</button></div>
+          <div class="serie-season-list" data-serie-season-list>
+            <fieldset class="serie-season-upload-row" data-serie-season-row>
+              <legend>Season <span data-season-label>1</span></legend>
+              <button class="remove-episode remove-season" type="button" data-remove-season aria-label="Remove season" hidden>×</button>
+              <div class="account-form-row"><div class="form-field"><label>Season number</label><input data-season-number type="number" min="1" value="1" required></div><div class="form-field"><label>Season release year</label><input data-season-year type="number" min="1888" max="2100" required></div></div>
+              <div class="form-field"><label>Season name <span class="optional-label">(optional)</span></label><input data-season-name maxlength="255"></div>
+              <div class="season-count-control"><div class="form-field"><label>Episodes to upload now</label><input type="number" min="1" max="50" value="1" data-episode-count></div><button class="button button-small" type="button" data-apply-episode-count>Set episodes</button></div>
+              <div class="episode-upload-list" data-episode-list>
+                <fieldset class="episode-upload-row" data-episode-row>
+                  <legend>Episode <span data-episode-label>1</span></legend>
+                  <button class="remove-episode" type="button" data-remove-episode aria-label="Remove episode" hidden>×</button>
+                  <div class="form-field"><label>Episode title</label><input data-episode-name maxlength="255" required></div>
+                  <div class="form-field"><label>Episode number</label><input data-episode-number type="number" min="1" value="1" required></div>
+                  <div class="form-field"><label>Episode video</label><input data-episode-video type="file" accept="video/*" required></div>
+                </fieldset>
+              </div>
+              <button class="add-episode" type="button" data-add-episode>+ Add another episode</button>
+            </fieldset>
           </div>
-          <button class="add-episode" type="button" data-add-episode>+ Add another episode</button>
+          <button class="add-episode" type="button" data-add-season>+ Add another season</button>
           <button class="button button-primary account-submit" type="submit">Publish serie <span>↑</span></button>
         </form>
       </section>
     </section>
-  </aside>
+      </aside>
+    </div>
+  </dialog>
+
+  <dialog class="dashboard-dialog library-dialog" data-library-dialog aria-labelledby="library-dialog-heading">
+    <div class="dashboard-dialog-shell">
+      <button class="dialog-close" type="button" data-close-dialog aria-label="Close content library">×</button>
+      <section class="content-library-panel">
+        <div class="library-heading"><div><p class="eyebrow">Your library</p><h2 id="library-dialog-heading">Published content</h2><p>Open engagement details, copy links, or manage every upload from one place.</p></div><button class="button button-small" type="button" data-open-upload-dialog>Upload content</button></div>
+        <div class="account-alert" data-library-alert hidden></div>
+        <div class="content-library-list" data-library-list></div>
+        <div class="empty-account-state" data-library-empty hidden><span>✦</span><h3>Your library is ready.</h3><p>Upload a movie, music, comedy, image, or serie to start managing it here.</p></div>
+      </section>
+    </div>
+  </dialog>
+
+  <dialog class="dashboard-dialog management-dialog" data-management-dialog aria-labelledby="management-dialog-heading">
+    <div class="dashboard-dialog-shell management-dialog-shell">
+      <button class="dialog-close" type="button" data-close-dialog aria-label="Close dialog">×</button>
+      <section class="content-library-panel" data-management-dialog-body>
+        <h2 id="management-dialog-heading">Manage content</h2>
+      </section>
+    </div>
+  </dialog>
 </section>
 {% endblock %}

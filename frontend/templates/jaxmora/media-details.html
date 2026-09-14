@@ -1,0 +1,10 @@
+{% extends 'jaxmora/detail_base.html' %}
+{% block title %}{{ content_type|title }} details | JAXMORA{% endblock %}
+{% block detail_page %}{{ content_type }}{% endblock %}
+{% block content_type %}{{ content_type }}{% endblock %}
+{% block films_active %}{% if content_type == 'movie' or content_type == 'serie' or content_type == 'episode' %}active{% endif %}{% endblock %}
+{% block music_active %}{% if content_type == 'music' %}active{% endif %}{% endblock %}
+{% block comedy_active %}{% if content_type == 'comedy' %}active{% endif %}{% endblock %}
+{% block visuals_active %}{% if content_type == 'visual' %}active{% endif %}{% endblock %}
+{% block related_heading %}Related content{% endblock %}
+{% block back_url %}{% if content_type == 'music' %}{% url 'frontend:music' %}{% elif content_type == 'comedy' %}{% url 'frontend:comedy' %}{% elif content_type == 'visual' %}{% url 'frontend:image_visuals' %}{% else %}{% url 'frontend:films' %}{% endif %}{% endblock %}

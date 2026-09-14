@@ -110,6 +110,15 @@ def image_visuals(request):
     return render(request, 'jaxmora/image-visuals.html', {'catalog_type': 'visuals'})
 
 
+def media_details(request, content_type, content_id):
+    """Return the shared detail shell; its JavaScript loads API content."""
+    return render(
+        request,
+        'jaxmora/media-details.html',
+        {'content_type': content_type, 'content_id': content_id},
+    )
+
+
 def creators(request):
     """Render non-musician marketplace creators for the public directory."""
     return render(
@@ -182,4 +191,3 @@ def terms_of_service(request):
         'jaxmora/legal.html',
         {'legal_title': 'Terms of service', 'legal_kind': 'terms'},
     )
-

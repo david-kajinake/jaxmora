@@ -22,6 +22,10 @@ class ContentUploadForm(forms.Form):
     )
     year_released = forms.IntegerField(label='Release year', min_value=1888, max_value=2100)
     category = forms.CharField(max_length=255, required=False)
+    thumbnail = forms.ImageField(
+        required=False,
+        widget=forms.ClearableFileInput(attrs={'accept': 'image/*'}),
+    )
     trailer_link = forms.URLField(required=False)
     production_studio = forms.CharField(max_length=255, required=False)
 
@@ -36,6 +40,10 @@ class SerieUploadForm(forms.Form):
         label='Series release year', min_value=1888, max_value=2100
     )
     category = forms.CharField(max_length=255)
+    thumbnail = forms.ImageField(
+        required=False,
+        widget=forms.ClearableFileInput(attrs={'accept': 'image/*'}),
+    )
     season_number = forms.IntegerField(min_value=1)
     season_name = forms.CharField(max_length=255, required=False)
     season_year = forms.IntegerField(

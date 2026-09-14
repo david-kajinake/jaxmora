@@ -1,6 +1,5 @@
 from django.contrib.auth import views as auth_views
 from django.urls import path, reverse_lazy
-
 from . import views
 
 app_name = 'frontend'
@@ -11,6 +10,12 @@ urlpatterns = [
     path('music/', views.music, name='music'),
     path('comedy/', views.comedy, name='comedy'),
     path('image-visuals/', views.image_visuals, name='image_visuals'),
+    path('movie/<str:content_id>/', views.media_details, {'content_type': 'movie'}, name='movie_details'),
+    path('series/<str:content_id>/', views.media_details, {'content_type': 'serie'}, name='serie_details'),
+    path('episode/<str:content_id>/', views.media_details, {'content_type': 'episode'}, name='episode_details'),
+    path('music/<str:content_id>/', views.media_details, {'content_type': 'music'}, name='music_details'),
+    path('comedy/<str:content_id>/', views.media_details, {'content_type': 'comedy'}, name='comedy_details'),
+    path('image-visual/<str:content_id>/', views.media_details, {'content_type': 'visual'}, name='visual_details'),
     path('creators/', views.creators, name='creators'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('profile/', views.profile, name='profile'),

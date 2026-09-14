@@ -1,0 +1,43 @@
+{% extends 'jaxmora/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'frontend/css/catalog.css' %}?v={{ latest_timestamp }}">
+<link rel="stylesheet" href="{% static 'frontend/css/details.css' %}?v={{ latest_timestamp }}">
+{% endblock %}
+
+{% block content %}
+<header class="catalog-header">
+  <div class="catalog-nav container">
+    <a class="brand" href="{% url 'frontend:home' %}" aria-label="JAXMORA home"><span class="brand-mark">J</span><span class="brand-name">JAX<span>MORA</span><small>.COM</small></span></a>
+    <nav aria-label="Main navigation">
+      <a href="{% url 'frontend:home' %}">Home</a>
+      <a class="{% block films_active %}{% endblock %}" href="{% url 'frontend:films' %}">Films</a>
+      <a class="{% block music_active %}{% endblock %}" href="{% url 'frontend:music' %}">Music</a>
+      <a class="{% block comedy_active %}{% endblock %}" href="{% url 'frontend:comedy' %}">Comedy</a>
+      <a class="{% block visuals_active %}{% endblock %}" href="{% url 'frontend:image_visuals' %}">Visuals</a>
+      <a href="{% url 'frontend:creators' %}">Creators</a>
+    </nav>
+    <div class="catalog-account">{% include 'jaxmora/includes/auth_controls.html' %}</div>
+    <button class="catalog-menu-toggle" type="button" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main class="detail-page" data-detail-page="{% block detail_page %}{% endblock %}" data-content-type="{% block content_type %}{% endblock %}" data-content-id="{{ content_id }}">
+  <section class="detail-shell container">
+    <a class="detail-back" href="{% block back_url %}{% endblock %}">← Back to catalogue</a>
+    <p class="detail-status" data-detail-status aria-live="polite">Loading content…</p>
+    <div data-detail-content hidden>
+      <div class="detail-main" data-detail-main></div>
+      <section class="detail-seasons" data-detail-seasons hidden></section>
+      <section class="detail-related" data-detail-related aria-live="polite">
+        <div class="detail-section-heading"><p class="eyebrow">Keep watching</p><h2 data-related-heading>{% block related_heading %}Related content{% endblock %}</h2></div>
+        <div class="detail-related-grid" data-related-list></div>
+        <p class="detail-empty" data-related-empty>Loading related content…</p>
+      </section>
+    </div>
+  </section>
+</main>
+{% endblock %}
+
+{% block extra_js %}<script type="module" src="{% static 'frontend/js/details.js' %}?v={{ latest_timestamp }}"></script>{% endblock %}

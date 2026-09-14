@@ -74,6 +74,11 @@ class DashboardUploadChooserTests(TestCase):
         response = self.client.get(reverse('frontend:dashboard'))
 
         self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'data-open-upload-dialog')
+        self.assertContains(response, 'data-upload-dialog')
+        self.assertContains(response, 'data-open-library')
+        self.assertContains(response, 'data-library-dialog')
+        self.assertContains(response, 'data-management-dialog')
         self.assertContains(response, 'data-upload-type-picker')
         for content_type in ('movie', 'music', 'visual', 'comedy', 'serie'):
             self.assertContains(
@@ -88,6 +93,10 @@ class DashboardUploadChooserTests(TestCase):
         self.assertContains(response, 'id="upload-form-visual"')
         self.assertContains(response, 'id="upload-form-comedy"')
         self.assertContains(response, 'id="upload-form-serie"')
+        self.assertContains(response, 'data-season-count')
+        self.assertContains(response, 'data-serie-season-list')
+        for content_type in ('movie', 'music', 'visual', 'comedy', 'serie'):
+            self.assertContains(response, f'name="thumbnail"')
 
 
 class ProfileFormChooserTests(TestCase):
@@ -111,19 +120,45 @@ class ProfileFormChooserTests(TestCase):
 class CataloguePageTests(TestCase):
     def test_catalogue_pages_render_with_their_loader(self):
         expected_pages = {
-            'films': 'films',
-            'music': 'music',
-            'comedy': 'comedy',
-            'image_visuals': 'visuals',
+            'films': ('films', 'movies/,series/'),
+            'music': ('music', 'music/'),
+            'comedy': ('comedy', 'comedies/'),
+            'image_visuals': ('visuals', 'visual-images/'),
         }
 
-        for route_name, page_name in expected_pages.items():
+        for route_name, (page_name, endpoints) in expected_pages.items():
             response = self.client.get(reverse(f'frontend:{route_name}'))
 
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, f'data-catalog-page="{page_name}"')
+            self.assertContains(response, f'data-catalog-endpoints="{endpoints}"')
             self.assertContains(response, 'id="load-more"')
             self.assertContains(response, 'frontend/js/catalog.js')
+
+
+class MediaDetailsPageTests(TestCase):
+    def test_media_routes_render_the_shared_api_driven_detail_shell(self):
+        routes = (
+            ('movie_details', 'movie'),
+            ('serie_details', 'serie'),
+            ('episode_details', 'episode'),
+            ('music_details', 'music'),
+            ('comedy_details', 'comedy'),
+            ('visual_details', 'visual'),
+        )
+
+        for route_name, content_type in routes:
+            response = self.client.get(
+                reverse(f'frontend:{route_name}', args=('content-id',))
+            )
+
+            self.assertEqual(response.status_code, 200)
+            self.assertTemplateUsed(response, 'jaxmora/media-details.html')
+            self.assertContains(response, f'data-detail-page="{content_type}"')
+            self.assertContains(response, 'data-content-id="content-id"')
+            self.assertContains(response, 'frontend/js/details.js')
+            self.assertContains(response, 'data-detail-related')
+            self.assertNotContains(response, 'data-detail-related hidden')
 
 
 class CreatorDirectoryTests(TestCase):
@@ -259,3 +294,20 @@ class AccountPageTests(TestCase):
         self.assertEqual(preferences.language, 'rw')
         self.assertEqual(preferences.font_size, 'large')
         self.assertEqual(preferences.font_family, 'georgia')
+
+
+class DetailPageRelatedSectionTests(TestCase):
+    def test_detail_pages_include_type_specific_related_headings(self):
+        pages = (
+            ('frontend:film_detail', 'Related Movies'),
+            ('frontend:serie_details', 'Related Series'),
+            ('frontend:music_detail', 'Related Music'),
+            ('frontend:comedy_detail', 'Related Comedies'),
+            ('frontend:visual_detail', 'Related Visuals'),
+        )
+        for name, heading in pages:
+            response = self.client.get(reverse(name))
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, heading)
+            self.assertContains(response, 'data-detail-related')
+            self.assertContains(response, 'data-related-list')

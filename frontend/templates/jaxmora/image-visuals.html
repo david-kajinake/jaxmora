@@ -1,6 +1,7 @@
 {% extends 'jaxmora/catalog_base.html' %}
 {% block title %}Image visuals | JAXMORA{% endblock %}
 {% block catalog_type %}visuals{% endblock %}
+{% block catalog_endpoints %}visual-images/{% endblock %}
 {% block hero_class %}visuals-hero{% endblock %}
 {% block visuals_active %}active{% endblock %}
 {% block hero_eyebrow %}A different point of view{% endblock %}
@@ -9,4 +10,3 @@
 {% block catalogue_title %}Latest visuals{% endblock %}
 {% block sort_options %}<option value="popular">Most popular</option><option value="views">Most downloaded</option>{% endblock %}
 {% block search_placeholder %}Search photography, people or places{% endblock %}
-{% block search_tags %}<div class="tag-filter compact-tags" aria-label="Filter visuals"><span>Browse by</span><button class="is-active" data-filter="all" type="button">All visuals</button><button data-filter="nature" type="button">Nature</button><button data-filter="wedding" type="button">Weddings</button><button data-filter="portrait" type="button">Portraits</button><button data-filter="travel" type="button">Travel</button><button data-filter="fashion" type="button">Fashion</button><button data-filter="events" type="button">Events</button></div>{% endblock %}

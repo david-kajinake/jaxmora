@@ -1,7 +1,7 @@
 {% extends 'jaxmora/base.html' %}
 {% load static %}
 
-{% block extra_css %}<link rel="stylesheet" href="{% static 'frontend/css/catalog.css' %}">{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'frontend/css/catalog.css' %}?v={{ latest_timestamp }}">{% endblock %}
 
 {% block content %}
 <header class="catalog-header">
@@ -20,7 +20,7 @@
   </div>
 </header>
 
-<main class="catalog-page" data-catalog-page="{{ catalog_type }}">
+<main class="catalog-page" data-catalog-page="{{ catalog_type }}" data-catalog-endpoints="{% block catalog_endpoints %}{% endblock %}">
   <section class="catalog-hero {% block hero_class %}{% endblock %}">
     <div class="container catalog-hero-content">
       <p class="eyebrow">{% block hero_eyebrow %}{% endblock %}</p>
@@ -43,7 +43,7 @@
       <p class="catalog-count" id="catalog-count" aria-live="polite"></p>
     </div>
 
-    {% block search_tags %}{% endblock %}
+    <div class="tag-filter" data-catalog-filters aria-label="Filter catalogue"></div>
 
     <div class="catalog-grid" id="catalog-results" aria-live="polite"></div>
     <div class="empty-catalog" id="empty-catalog" hidden><span>⌕</span><h3>No matching content yet</h3><p>Try another tag or search term.</p><button type="button" id="clear-catalog-filter">Clear filters</button></div>
@@ -53,4 +53,4 @@
 <div class="toast" role="status" aria-live="polite"></div>
 {% endblock %}
 
-{% block extra_js %}<script src="{% static 'frontend/js/catalog.js' %}" defer></script>{% endblock %}
+{% block extra_js %}<script type="module" src="{% static 'frontend/js/catalog.js' %}?v={{ latest_timestamp }}"></script>{% endblock %}

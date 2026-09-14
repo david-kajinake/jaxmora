@@ -28,8 +28,9 @@ class Post(models.Model):
     description = models.TextField( max_length= 500)
     price = models.DecimalField( decimal_places= 2, max_digits= 10, null= True )
     year_released = models.IntegerField()
-    uploaded_at = models.DateField( auto_now_add= True )
-    updated_at = models.DateField( auto_now= True )
+    thumbnail = models.ImageField(upload_to= 'thumbnails', null= True, blank= True)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
     class Meta:
         abstract = True
 
@@ -54,7 +55,7 @@ class Season(models.Model):
     ref_number = models.PositiveIntegerField()
     name = models.CharField( max_length= 255, blank=True )
     year_released = models.PositiveIntegerField()
-    uploaded_at = models.DateField( auto_now_add= True )
+    uploaded_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         constraints = [
@@ -74,7 +75,7 @@ class Episode( models.Model ):
     name = models.CharField( max_length= 255 )
     ref_number = models.PositiveIntegerField()
     video = models.FileField( upload_to= 'serie_videos/', null= False )
-    uploaded_at = models.DateField(auto_now_add=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         constraints = [
@@ -128,6 +129,12 @@ class MusicLike(models.Model):
     liker = models.ForeignKey(User, on_delete=models.CASCADE, related_name="music_likes")
 
 
+class MusicComment(models.Model):
+    music = models.ForeignKey(Music, on_delete=models.CASCADE, related_name="comments")
+    commenter = models.ForeignKey(User, on_delete=models.CASCADE, related_name="music_comments")
+    content = models.TextField(max_length=500)
+
+
 class MusicView(models.Model):
     music = models.ForeignKey(Music, on_delete=models.CASCADE, related_name="views")
     viewer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="music_views")
@@ -161,6 +168,44 @@ class VisualImageComment(models.Model):
 class VisualImageView(models.Model):
     image = models.ForeignKey( VisualImage, on_delete= models.CASCADE, related_name= "views" )
     viewer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="visual_image_views")
+
+
+class SerieView(models.Model):
+    """
+    Credited when a user watches one episode.
+    Each user should contribute only one view
+    """
+    serie = models.ForeignKey(Serie, on_delete=models.CASCADE, related_name='views')
+    viewer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='serie_views')
+
+
+class EpisodeView(models.Model):
+    episode = models.ForeignKey(Episode, on_delete=models.CASCADE, related_name='views')
+    viewer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='episode_views')
+
+
+class EpisodeLike(models.Model):
+    episode = models.ForeignKey(Episode, on_delete=models.CASCADE, related_name='likes')
+    liker = models.ForeignKey(User, on_delete=models.CASCADE, related_name='episode_likes')
+
+
+class EpisodeComment(models.Model):
+    episode = models.ForeignKey(Episode, on_delete=models.CASCADE, related_name='comments')
+    commenter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='episode_comments')
+    content = models.TextField(max_length=500)
+
+
+class ContentReport(models.Model):
+    id = models.CharField(max_length=255, primary_key=True, default=generate_ulid)
+    reporter = models.ForeignKey(User, on_delete=models.CASCADE, related_name="content_reports")
+    content_type = models.CharField(max_length=50) # 'movie', 'music', 'comedy', 'visual', 'episode', 'serie'
+    content_id = models.CharField(max_length=255)
+    reason = models.CharField(max_length=255)
+    details = models.TextField(max_length=1000, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Report by {self.reporter.username} on {self.content_type}:{self.content_id}"
 
 
 class UserPreferences(models.Model):
@@ -206,3 +251,6 @@ class UserPreferences(models.Model):
 
     def __str__(self):
         return f'{self.user.username} preferences'
+
+
+

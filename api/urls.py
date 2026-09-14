@@ -12,6 +12,7 @@ router.register('series', views.SerieViewSet, basename='series')
 router.register('music', views.MusicViewSet, basename='music')
 router.register('comedies', views.ComedyViewSet, basename='comedies')
 router.register('visual-images', views.VisualImageViewSet, basename='visual-images')
+router.register('episodes', views.EpisodeViewSet, basename='episodes')
 
 
 urlpatterns = [
@@ -24,7 +25,13 @@ urlpatterns = [
     path('auth/me/password/', views.ChangePasswordAPIView.as_view(), name='change_password'),
     path('auth/preferences/', views.UserPreferencesAPIView.as_view(), name='preferences'),
     path('content/upload/', views.ContentUploadAPIView.as_view(), name='content_upload'),
+    path('content/report/', views.ContentReportAPIView.as_view(), name='content_report'),
     path('series/upload/', views.SerieUploadAPIView.as_view(), name='serie_upload'),
     path('dashboard/', views.DashboardAPIView.as_view(), name='dashboard'),
+    path(
+        'dashboard/contents/<str:content_type>/<str:content_id>/engagement/',
+        views.DashboardEngagementAPIView.as_view(),
+        name='dashboard_content_engagement',
+    ),
     path('', include(router.urls)),
 ]

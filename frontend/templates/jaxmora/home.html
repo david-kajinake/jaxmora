@@ -1,4 +1,5 @@
 {% extends 'jaxmora/base.html' %}
+{% load static %}
 
 {% block content %}
 <div class="site-shell">
@@ -80,32 +81,7 @@
         </div>
         <a class="view-all" href="{% url 'frontend:films' %}">View all films <span>→</span></a>
       </div>
-      <div class="film-grid card-grid">
-        <article class="film-card media-card" data-searchable="beyond horizon drama adwaire">
-          <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=720&q=85" alt="A cinema screen in a dark theatre">
-          <div class="card-gradient"></div>
-          <span class="card-tag">Drama</span>
-          <div class="film-info"><p class="meta">Feature film · 1h 58m</p><h3>Beyond the Horizon</h3><p class="creator">An Adwaire story</p><div class="price-row"><span>8,000 RWF</span><button class="add-to-basket" type="button">Add <b>+</b></button></div></div>
-        </article>
-        <article class="film-card media-card" data-searchable="last promise romance film">
-          <img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=720&q=85" alt="Warm light falls across a film set">
-          <div class="card-gradient"></div>
-          <span class="card-tag">Romance</span>
-          <div class="film-info"><p class="meta">Feature film · 1h 42m</p><h3>The Last Promise</h3><p class="creator">Kigali Stories</p><div class="price-row"><span>7,500 RWF</span><button class="add-to-basket" type="button">Add <b>+</b></button></div></div>
-        </article>
-        <article class="film-card media-card" data-searchable="shadows truth thriller film">
-          <img src="https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=720&q=85" alt="Empty theatre seats lit by a projector">
-          <div class="card-gradient"></div>
-          <span class="card-tag">Thriller</span>
-          <div class="film-info"><p class="meta">Feature film · 2h 06m</p><h3>Shadows of Truth</h3><p class="creator">Malian Pictures</p><div class="price-row"><span>12,000 RWF</span><button class="add-to-basket" type="button">Add <b>+</b></button></div></div>
-        </article>
-        <article class="film-card media-card" data-searchable="silent path documentary film">
-          <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=720&q=85" alt="A mountain path at sunset">
-          <div class="card-gradient"></div>
-          <span class="card-tag">Documentary</span>
-          <div class="film-info"><p class="meta">Documentary · 53m</p><h3>The Silent Path</h3><p class="creator">Umwami Studios</p><div class="price-row"><span>6,000 RWF</span><button class="add-to-basket" type="button">Add <b>+</b></button></div></div>
-        </article>
-      </div>
+      <div class="film-grid card-grid" data-home-content="films" aria-live="polite" aria-busy="true"></div>
     </section>
 
     <section class="content-section container" id="music" data-content-section>
@@ -113,32 +89,17 @@
         <div><p class="eyebrow">Turn it up</p><h2>Trending music</h2></div>
         <a class="view-all" href="{% url 'frontend:music' %}">Explore music <span>→</span></a>
       </div>
-      <div class="music-grid card-grid">
-        <article class="music-card" data-searchable="riva midnight pulse electronic music"><img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=700&q=85" alt="Singer recording music in a studio"><button class="play-button" type="button" aria-label="Preview Midnight Pulse">▶</button><div><p class="track-number">01 · 03:12</p><h3>Midnight Pulse</h3><p>Riva M.</p><span>1,000 RWF</span></div></article>
-        <article class="music-card" data-searchable="komeza elemen acoustic music"><img src="https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?auto=format&fit=crop&w=700&q=85" alt="A musician playing guitar"><button class="play-button" type="button" aria-label="Preview Komeza">▶</button><div><p class="track-number">02 · 02:48</p><h3>Komeza</h3><p>Elemen</p><span>1,000 RWF</span></div></article>
-        <article class="music-card" data-searchable="ibanga afrobeats music jules"><img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=700&q=85" alt="Concert crowd under purple lights"><button class="play-button" type="button" aria-label="Preview Ibanga">▶</button><div><p class="track-number">03 · 03:06</p><h3>Ibanga</h3><p>Jules K.</p><span>1,000 RWF</span></div></article>
-        <article class="music-card" data-searchable="blessings inyanja afro soul music"><img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=700&q=85" alt="Performer holding a microphone on stage"><button class="play-button" type="button" aria-label="Preview Blessings">▶</button><div><p class="track-number">04 · 04:09</p><h3>Blessings</h3><p>Inyanja</p><span>1,000 RWF</span></div></article>
-      </div>
+      <div class="music-grid card-grid" data-home-content="music" aria-live="polite" aria-busy="true"></div>
     </section>
 
     <section class="content-section container" id="comedy" data-content-section>
       <div class="section-heading"><div><p class="eyebrow">A good laugh</p><h2>Top comedy</h2></div><a class="view-all" href="{% url 'frontend:comedy' %}">See more comedy <span>→</span></a></div>
-      <div class="comedy-grid card-grid">
-        <article class="comedy-card" data-searchable="broken phone comedy rwandan boy"><img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=700&q=85" alt="Smiling comedian in a blazer"><span>12:45</span><div><h3>The Broken Phone</h3><p>Rwandan Boy</p></div></article>
-        <article class="comedy-card" data-searchable="mamas advice comedy clation kibonge"><img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=700&q=85" alt="Woman smiling warmly"><span>10:32</span><div><h3>Mama's Advice</h3><p>Clation Kibonge</p></div></article>
-        <article class="comedy-card" data-searchable="job interview comedy emmy pro"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=700&q=85" alt="Man in formal attire smiling"><span>07:20</span><div><h3>The Job Interview</h3><p>Emmy Pro</p></div></article>
-        <article class="comedy-card" data-searchable="wifi problems comedy sevenh"><img src="https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?auto=format&fit=crop&w=700&q=85" alt="Man laughing in an office"><span>09:15</span><div><h3>WiFi Problems</h3><p>Sevenh</p></div></article>
-      </div>
+      <div class="comedy-grid card-grid" data-home-content="comedy" aria-live="polite" aria-busy="true"></div>
     </section>
 
     <section class="content-section container" id="images" data-content-section>
       <div class="section-heading"><div><p class="eyebrow">Frame the world</p><h2>Featured visuals</h2></div><a class="view-all" href="{% url 'frontend:image_visuals' %}">Discover photography <span>→</span></a></div>
-      <div class="image-grid card-grid">
-        <article class="image-card" data-searchable="mountain peak innocent photos nature"><img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=900&q=85" alt="Clouds over a mountain peak"><div><h3>Mountain Peak</h3><p>Innocent Photos · 2,000 RWF</p></div></article>
-        <article class="image-card" data-searchable="wedding moment bella photography"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=900&q=85" alt="A couple at their wedding"><div><h3>Wedding Moment</h3><p>Bella Photography · 3,000 RWF</p></div></article>
-        <article class="image-card" data-searchable="city lights urban visuals"><img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=900&q=85" alt="City skyline at sunset"><div><h3>City Lights</h3><p>Urban Visuals · 2,500 RWF</p></div></article>
-        <article class="image-card" data-searchable="wildlife beauty africa lens elephant"><img src="https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?auto=format&fit=crop&w=900&q=85" alt="Elephant in a forest"><div><h3>Wildlife Beauty</h3><p>Africa Lens · 2,000 RWF</p></div></article>
-      </div>
+      <div class="image-grid card-grid" data-home-content="visuals" aria-live="polite" aria-busy="true"></div>
     </section>
 
     <section class="why-section" id="why-jaxmora">
@@ -155,12 +116,7 @@
 
     <section class="creators-section container" id="creators">
       <div class="section-heading"><div><p class="eyebrow">Meet the talent</p><h2>Creators shaping culture</h2></div><a class="view-all" href="{% url 'frontend:creators' %}">Meet all creators <span>→</span></a></div>
-      <div class="creator-list">
-        <a href="#creator-clation" class="creator"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=160&q=85" alt="Clation Kibonge"><span><strong>Clation Kibonge</strong><small>Comedy · 125 products</small></span><i>↗</i></a>
-        <a href="#creator-bruce" class="creator"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=160&q=85" alt="Bruce Melodie"><span><strong>Bruce Melodie</strong><small>Music · 98 products</small></span><i>↗</i></a>
-        <a href="#creator-innocent" class="creator"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=160&q=85" alt="Innocent Photos"><span><strong>Innocent Photos</strong><small>Photography · 76 products</small></span><i>↗</i></a>
-        <a href="#creator-emmy" class="creator"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=160&q=85" alt="Emmy Pro"><span><strong>Emmy Pro</strong><small>Comedy · 68 products</small></span><i>↗</i></a>
-      </div>
+      <p class="creator-directory-copy">Browse the creator directory to discover the people behind the latest releases.</p>
     </section>
 
     <section class="creator-cta" id="join">
@@ -179,3 +135,5 @@
   <div class="toast" role="status" aria-live="polite"></div>
 </div>
 {% endblock %}
+
+{% block extra_js %}<script type="module" src="{% static 'frontend/js/home-catalog.js' %}?v={{ latest_timestamp }}"></script>{% endblock %}
