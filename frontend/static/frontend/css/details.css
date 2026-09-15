@@ -126,6 +126,78 @@
   color: #fff;
 }
 
+/* Refactored HTML-Details Comments Section */
+.detail-comments-section { 
+  margin-top: 50px; 
+  padding-top: 30px; 
+  border-top: 1px solid var(--line); 
+}
+
+/* Hide default browser disclosure triangle */
+.detail-comments-section summary { 
+  cursor: pointer; 
+  list-style: none; 
+  user-select: none;
+  outline: none;
+}
+.detail-comments-section summary::-webkit-details-marker { 
+  display: none; 
+}
+
+/* Custom interactive styling for the heading */
+.detail-comments-section summary h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.toggle-icon {
+  font-size: 0.7rem;
+  color: var(--gold);
+  transition: transform 0.2s ease;
+}
+.detail-comments-section[open] .toggle-icon {
+  transform: rotate(-180deg);
+}
+
+.detail-comments-content {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Add Comment Button */
+.detail-add-comment-btn {
+  align-self: flex-start;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  background: transparent;
+}
+.detail-add-comment-btn:hover {
+  background: rgba(255, 215, 0, 0.1); /* Subtle gold tint on hover */
+}
+
+/* Form Styles */
+.comment-form { 
+  display: grid; 
+  gap: 10px; 
+  max-width: 600px; 
+}
+.comment-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.cancel-comment-btn {
+  background: transparent;
+  color: #aaa;
+  border: 1px solid #555;
+}
+.cancel-comment-btn:hover {
+  background: #222;
+  color: #fff;
+}
+
 
 @media (max-width: 760px) {
   .detail-shell { padding-top: 28px; }

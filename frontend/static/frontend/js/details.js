@@ -320,19 +320,54 @@ engagementBar.append(likeBtn, reportBtn);
 copy.append(engagementBar);
 
 
-// --- COMMENTS SECTION ---
-const commentsSection = create('section', 'detail-comments-section');
-const commentsHeader = create('div', 'detail-section-heading');
-commentsHeader.innerHTML = `<p class="eyebrow">Community</p><h2>Comments (<span class="comments-count">${content.comment_count || 0}</span>)</h2>`;
-commentsSection.append(commentsHeader);
 
+// --- COMMENTS SECTION ---
+// 1. Wrap the entire section in a native <details> element
+const commentsDetails = create('details', 'detail-comments-section');
+
+// 2. Use <summary> as the clickable header to toggle visibility
+const commentsSummary = create('summary', 'detail-section-heading');
+commentsSummary.innerHTML = `
+  <div>
+    <p class="eyebrow">Community</p>
+    <h2>Comments (<span class="comments-count">${content.comment_count || 0}</span>) <span class="toggle-icon">▼</span></h2>
+  </div>
+`;
+commentsDetails.append(commentsSummary);
+
+const commentsContent = create('div', 'detail-comments-content');
+
+// 3. "Add a comment" toggle button
+const showCommentFormBtn = create('button', 'button button-small detail-add-comment-btn', '+ Add a comment');
+showCommentFormBtn.type = 'button';
+
+// 4. The Comment Form (Hidden by default)
 const commentForm = create('form', 'comment-form');
+commentForm.hidden = true; 
 commentForm.innerHTML = `
   <textarea placeholder="Write a comment..." rows="3" required maxlength="500"></textarea>
-  <button class="button button-primary button-small" type="submit">Post comment</button>
+  <div class="comment-form-actions">
+    <button class="button button-small cancel-comment-btn" type="button">Cancel</button>
+    <button class="button button-primary button-small" type="submit">Post comment</button>
+  </div>
 `;
+
+// Toggle logic for the comment input form
+showCommentFormBtn.addEventListener('click', () => {
+  commentForm.hidden = false;
+  showCommentFormBtn.hidden = true;
+  commentForm.querySelector('textarea').focus();
+});
+
+commentForm.querySelector('.cancel-comment-btn').addEventListener('click', () => {
+  commentForm.hidden = true;
+  showCommentFormBtn.hidden = false;
+  commentForm.reset();
+});
+
 const commentsList = create('div', 'comments-list');
 
+// 5. Fetch Comments Logic
 const loadComments = async () => {
   const res = await apiRequest(`${config.endpoint}/${encodeURIComponent(id)}/comments/`);
   if (res.ok) {
@@ -360,10 +395,14 @@ commentForm.addEventListener('submit', async (e) => {
 
   if (res.ok) {
     textarea.value = '';
+    commentForm.hidden = true;
+    showCommentFormBtn.hidden = false;
     await loadComments();
+    
+    // Update counts
     const newCount = (content.comment_count || 0) + 1;
     content.comment_count = newCount;
-    commentsSection.querySelector('.comments-count').textContent = newCount;
+    commentsSummary.querySelector('.comments-count').textContent = newCount;
     const metaComment = metadata.querySelector('.detail-comment-count dd');
     if (metaComment) metaComment.textContent = `${newCount} comments`;
   } else if (res.status === 401) {
@@ -371,13 +410,18 @@ commentForm.addEventListener('submit', async (e) => {
   }
 });
 
-commentsSection.append(commentForm, commentsList);
+commentsContent.append(showCommentFormBtn, commentForm, commentsList);
+commentsDetails.append(commentsContent);
+main.append(commentsDetails);
 
-
-main.append(commentsSection);
-
-loadComments().catch(() => {});
-
+// 6. Lazy-load comments only when the user opens the <details> section
+let commentsLoaded = false;
+commentsDetails.addEventListener('toggle', () => {
+  if (commentsDetails.open && !commentsLoaded) {
+    commentsLoaded = true;
+    loadComments().catch(() => {});
+  }
+});
 
 
 

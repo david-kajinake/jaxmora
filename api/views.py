@@ -535,6 +535,7 @@ class SerieViewSet(ViewedContentViewSet):
     serializer_class = SerieSerializer
     view_model = SerieView
     view_relation_field = 'serie'
+    
 
     def perform_destroy(self, instance):
         for season in instance.seasons.prefetch_related('episodes'):
