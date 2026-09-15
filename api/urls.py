@@ -26,6 +26,7 @@ urlpatterns = [
     path('auth/preferences/', views.UserPreferencesAPIView.as_view(), name='preferences'),
     path('content/upload/', views.ContentUploadAPIView.as_view(), name='content_upload'),
     path('content/report/', views.ContentReportAPIView.as_view(), name='content_report'),
+    path('search/<str:query>/', views.GlobalSearchAPIView.as_view(), name='global_search'),
     path('series/upload/', views.SerieUploadAPIView.as_view(), name='serie_upload'),
     path('dashboard/', views.DashboardAPIView.as_view(), name='dashboard'),
     path(

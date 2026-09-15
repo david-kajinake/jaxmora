@@ -58,6 +58,7 @@ from .serializers import (
     UserSerializer,
     VisualImageSerializer,
 )
+from .search_strategies import get_search_strategy
 
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
@@ -535,7 +536,7 @@ class SerieViewSet(ViewedContentViewSet):
     serializer_class = SerieSerializer
     view_model = SerieView
     view_relation_field = 'serie'
-    
+
 
     def perform_destroy(self, instance):
         for season in instance.seasons.prefetch_related('episodes'):
@@ -676,3 +677,26 @@ class EpisodeViewSet(
         episode = self.get_object()
         EpisodeView.objects.get_or_create(episode=episode, viewer=request.user)
         return Response({'view_count': episode.views.values('viewer_id').distinct().count()})
+
+
+#SEARCH STRATEGIES
+class GlobalSearchAPIView(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get(self, request, query):
+        clean_query = query.strip()
+        if not clean_query:
+            return Response({
+                'movies': [],
+                'music': [],
+                'comedies': [],
+                'visuals': [],
+                'series': [],
+            })
+
+        strategy = get_search_strategy()
+        results = strategy.search(clean_query, request)
+        return Response(results)
+
+
+    

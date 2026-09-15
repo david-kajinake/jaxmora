@@ -8,4 +8,3 @@ def generate_ulid():
     return ulid.ULID()
 
 
-
