@@ -44,9 +44,9 @@ class ORMSearchStrategy(BaseSearchStrategy):
         comedies = Comedy.objects.annotate(
             year_str= Cast('year_released', output_field= CharField())
         ).filter(
-            Q(title__icontains=query) | Q(owner__first_name__icontains=query) | 
-            Q(owner__other_name__icontains=query) | Q(owner__username__icontains=query) |
-            Q(year_str__icontains=query)
+            Q(title__icontains=query) | Q(description__icontains=query) |
+            Q(owner__first_name__icontains=query) | Q(owner__other_name__icontains=query) | 
+            Q(owner__username__icontains=query) | Q(year_str__icontains=query)
         ).select_related('owner')
 
         visual_images = VisualImage.objects.annotate(
