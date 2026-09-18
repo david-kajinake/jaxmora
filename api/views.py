@@ -19,6 +19,8 @@ from .models import (
     ComedyView,
     ContentReport,
     Episode,
+    EpisodeComment,
+    EpisodeLike,
     EpisodeView,
     Movie,
     MovieComment,
@@ -646,38 +648,30 @@ class IsEpisodeOwnerOrReadOnly(permissions.BasePermission):
             or obj.season.serie.owner_id == request.user.id
         )
 
-
-class EpisodeViewSet(
-    mixins.ListModelMixin,
-    mixins.RetrieveModelMixin,
-    mixins.UpdateModelMixin,
-    mixins.DestroyModelMixin,
-    viewsets.GenericViewSet,
-):
+class EpisodeViewSet(ViewedContentViewSet):
     queryset = Episode.objects.select_related('season__serie__owner').all()
     serializer_class = EpisodeSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsEpisodeOwnerOrReadOnly)
+
+    view_model = EpisodeView
+    view_relation_field = 'episode'
+    like_model = EpisodeLike
+    like_relation_field = 'episode'
+    comment_model = EpisodeComment
+    comment_relation_field = 'episode'
 
     def get_serializer_class(self):
         if self.action in ('partial_update', 'update'):
             return EpisodeManagementSerializer
         return EpisodeSerializer
 
+    def create(self, request, *args, **kwargs):
+        # Episodes are created via SerieViewSet season actions
+        return Response({'detail': 'Method "POST" not allowed.'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
     def perform_destroy(self, instance):
         instance.video.delete(save=False)
         instance.delete()
-
-    @action(
-        detail=True,
-        methods=('post',),
-        url_path='record-view',
-        permission_classes=(permissions.IsAuthenticated,),
-    )
-    def record_view(self, request, pk=None):
-        episode = self.get_object()
-        EpisodeView.objects.get_or_create(episode=episode, viewer=request.user)
-        return Response({'view_count': episode.views.values('viewer_id').distinct().count()})
-
 
 #SEARCH STRATEGIES
 class GlobalSearchAPIView(APIView):
